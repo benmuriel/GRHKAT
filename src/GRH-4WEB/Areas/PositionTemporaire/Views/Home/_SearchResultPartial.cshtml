@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DATACCESS.Models.v_position_temporaire>
+
+<div class="row mt-2 ">
+    <div class="col-9">
+        <input type="search" class="form-controlsearchField" data-found="#count" data-target="#data" placeholder="Filter la liste" />
+    </div>
+    <div class="col-3">
+        @if (ViewBag.id > 0)
+        {
+            <a class="button outline primary"> <span class="mif mif-plus"></span> Nouveau</a>
+        }
+
+    </div>
+</div>
+ 
+
+<div class="overflow-auto col-12" style="height:350px;">
+    <table id="data" class="table striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>POSITION </th>
+                <th>AGENT </th>
+                <th>EMPLOI </th>
+                <th>DUREE </th> 
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0;}
+            @if (Model != null)
+            {
+
+                foreach (var item in Model)
+                {
+                    <tr class="searchable" data-content="@item.Describe">
+                        <td> @{i++;} @i  </td>
+                        <td class="text-bold"> @item.type_position  </td>
+                        <td>
+                            @item.agent
+                        </td>
+                        <td style="max-width:330px">
+                            <span class="text-bold">@item.fonction</span> - @item.service
+                        </td>
+                        <td class="text-center">
+                            <div> @item.started_at_string  -  @item.ended_at_string  </div>
+                            @if (item.duree == 0)
+                            {
+                                <a class="button outline primary">Terminer</a>
+                            }
+                        </td>
+                         
+                        
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>

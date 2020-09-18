@@ -1,0 +1,30 @@
+﻿
+@if (Model != null)
+{
+    List<DATACCESS.Models.v_position_temporaire> data = DATACCESS.ModuleAgent.PositionTemporaireLoad(Model.agent_id, "running", null, null);
+    if (data.Count > 0)
+    {
+        <div class="card">
+            <div class="text-right fg-red text-small p-2  text-bold">
+                Position Temporaires
+            </div>
+            <div class="card-content">
+                <ul> 
+                    @foreach (var item in data)
+                    {
+                        <li class="text-bold">
+                            @item.Describe
+                            @if (@item.isValidated)
+                            {
+                                <div class="text-right text-small fg-green"> @item.validation_state_string</div>
+                            }
+                            else
+                            { <div class="text-right text-small fg-red"> @item.validation_state_string</div>
+                        }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DATACCESS.Models.v_charge_sociale>
+
+@{
+    Layout = null;
+}
+
+
+<table class="table mt-2 row-border striped">
+    <thead>
+        <tr>
+            <th>  Nom </th>
+
+            <th> Lieu/ Date de naissance  </th>
+            <th> Occupation </th>
+            <th>  Prise en charge   </th>
+
+            <th>
+                <a href="@Url.Action("Create","ChargeSociale", new {agent_id = ViewBag.agent_id })" class="m-2 button outline primary float-right">Nouveau</a>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.nom_complet
+                    <div class="text-right">
+                        <span class="text-bold">Affinité </span>:
+                        <span>
+                            @item.affinite
+                            <span class="badge insid bg-@(item.genre == "H" ? "cyan" : "pink") fg-white">
+                                @Html.DisplayFor(modelItem => item.genre)
+                            </span>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        @item.lieu_naissance
+                    </div>
+                    @item.date_naissance.ToString("dd/MM/yyyy")
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.occupation)
+                </td>
+                <td>
+                    @item.etat_prise_en_charge
+                </td>
+                <td>
+                    <a class="button" href="@Url.Action("Edit", "ChargeSociale", new { id = item.id })"> <span class="mif mif-pencil"></span> Modifier</a>
+                    <a class="button" href="@Url.Action("Delete", "ChargeSociale", new { id = item.id })"> <span class="mif mif-bin"></span> Supprimer</a>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,32 @@
+﻿@model DATACCESS.Models.v_charge_sociale
+
+@{
+    Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
+}
+@section profil {
+    @{ Html.RenderAction("ProfilSynthese", "Home", new { id = Model.agent_id });}
+}
+
+@using (Html.BeginForm("Delete", "chargeSociale", new { id = Model.id }))
+{
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.agent_id)
+    <div class="dialog" >
+        <div class="dialog-title">
+            Suppression
+        </div>
+        <div class="dialog-content">
+            <h4>Suprimer cette prise en charge ? </h4>
+            <div> @Model.nom_complet</div>
+            <div> @Model.affinite</div>
+            <div> @Model.genre</div>
+        </div>
+
+        @Html.AntiForgeryToken()
+        <div class="dialog-actions text-right">
+            <button type="submit" class="button alert"> Supprimer</button>
+            <a class="js-dialog-close button">Annuler</a>
+        </div>
+
+    </div>
+}

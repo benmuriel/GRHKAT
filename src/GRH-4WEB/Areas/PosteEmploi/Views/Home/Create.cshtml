@@ -1,0 +1,56 @@
+﻿
+@{
+    Layout = null;
+}
+
+<form>
+    <div class="dialog-title text-center">
+        <h5 class="card-title"> Nouveau poste d'emploi</h5>
+    </div>
+    <div class="dialog-content">
+        @Html.AntiForgeryToken()
+        <input type="hidden" v-model="poste.structure_id" />
+        <input v-model="poste.id" type="hidden" />
+        <div class="m-3 text-bold">
+            {{ poste.structure }}
+        </div>
+        <div class="m-2 row">
+            <label class="col-md-2">Fonction </label>
+            <div class="col-md-6">
+                <select class="form-control bo-select" v-model="poste.fonction">
+                    <option v-for="item in fonctions"  v-bind:value="item">{{ item.designation }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input type="text" placeholder="précision" v-model="poste.designation" />
+            </div>
+        </div>       
+        <p class="m-4 text-leader border rounded bd-amber p-4 text-center">
+            {{ fullPostename }}
+        </p>
+    </div>
+    <div class="dialog-actions text-right">
+        <button v-if="poste.fonction_id != 0" type="button" class="button success  js-dialog-close" v-on:click="save">  Enregister</button>
+        <button type="button" class="button js-dialog-close">  Annuler  </button>
+    </div>
+</form>
+
+@*@section scripts{
+        <script>
+            $(function () {
+
+                $("#fonction_id").change(function () {
+                    var element = $(this).find('option:selected');
+                    $('#grade_fonction').text(element.attr("grade"))
+                    $('#full_emp').text(element.text() + " " + $('#designation').val().toUpperCase())
+                });
+                $("#fonction_id").change();
+            });
+            $('#designation').on("keyup", function () {
+                $("#fonction_id").change();
+            });
+
+        </script>
+
+    }*@
+

@@ -1,0 +1,137 @@
+﻿@model DATACCESS.ViewModels.ChargeSocialViewModel
+
+@{
+    Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
+}
+@section profil {
+    @{ Html.RenderAction("ProfilSynthese", "Home", new { id = Model.agent_id });}
+}
+
+@using (Html.BeginForm("Create", "ChargeSociale"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.agent_id)
+    
+    @Html.HiddenFor(model => model.id)
+
+    <h4> Création - Charge sociale</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+
+        <div class="col-6">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.nom, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.nom, "", new { @class = "fg-red" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.post_nom, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.post_nom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.post_nom, "", new { @class = "fg-red" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.prenom, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.prenom, "", new { @class = "fg-red" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.genre, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    <select id="genre" name="genre">
+                        <option value="H">Homme</option>
+                        <option value="F">Femme</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.genre, "", new { @class = "fg-red" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.affinite, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    <select id="affinite" name="affinite">
+                        <option value="conjoint">Conjoint(e)</option>
+                        <option value="enfant">Enfant</option>
+                        <option value="parent">Parent</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.affinite, "", new { @class = "fg-red" })
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.date_naissance, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.date_naissance, new { htmlAttributes = new { @class = "date", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.date_naissance, "", new { @class = "fg-red" })
+                </div>
+                <div class="col-1">
+                    @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "date_naissance"); }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.lieu_naissance, htmlAttributes: new { @class = "control-label " })
+                </div>     <div class="col-md-9">
+                    @Html.EditorFor(model => model.lieu_naissance, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.lieu_naissance, "", new { @class = "fg-red" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.occupation, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.occupation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.occupation, "", new { @class = "fg-red" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.etat, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9">
+                    <select id="etat" name="etat">
+                        <option value="true">En cours</option>
+                        <option value="false">Terminé</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.etat, "", new { @class = "fg-red" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4 border border-1 text-right bd-gray">
+        <button type="submit" class="button outline success">  Enregister</button>
+        <a href="@Url.Action("Profil", "Home", new { id = Model.agent_id, page="charge_sociale" })" class="button">  Annuler  </a>
+    </div>
+
+} 

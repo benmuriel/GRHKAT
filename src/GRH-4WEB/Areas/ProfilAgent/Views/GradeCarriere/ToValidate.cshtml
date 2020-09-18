@@ -1,0 +1,26 @@
+﻿@model DATACCESS.Models.grade_carriere
+@{
+    Layout = null;
+}
+@if (Model != null)
+{ 
+    <div class="border border-1 bd-gray bg-yellow shadow-1 p-3">
+        <p>
+            <div class="text-bold m-2"> @Model.grade_id</div>  <hr />
+            <span class="badge inside fg-orange">En attente de validation</span>
+        </p>
+        <div class="float-righ text-decoration-none">
+            <a href="@Url.Action("Edit","GradeCarriere", new {agent_id = Model.agent_id })">Editer</a> |
+            <a class="text-danger" href=# onclick="Metro.dialog.open('#delete_grade')">Supprimer</a>  
+         </div> 
+    </div> 
+    <div id="delete_grade" class="dialog" data-role="dialog">
+        @{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_SituationDeletePartial.cshtml"); }
+    </div>
+}
+else
+{
+    <div class="m-2">
+        <a href="@Url.Action("Create","GradeCarriere", new {agent_id = ViewBag.agent_id })" class="button outline primary float-right">Nouveau</a>
+    </div>
+}

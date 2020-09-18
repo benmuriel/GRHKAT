@@ -1,0 +1,84 @@
+﻿@model DATACCESS.Models.v_poste
+@{
+    Layout = "~/Views/Shared/_ServiceEmploiLayout.cshtml";
+}
+<div class="row m-3">
+    <div class="col-md-6 p-3">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="text-center">POSTE</h4>
+                <table class="table">
+                    <tr>
+                        <td class="text-bold">
+                            Emploi
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.fonction)
+                            <div class="text-small text-muted"> <span class="@(Model.is_politic?"warning":"primary")">@Model.TypeFonction</span></div>
+                            <div class="text-right">
+                                <a class="m-2" href="@Url.Action("Edit","Poste", new { area="PosteEmploi", id = Model.id })">   <span class="mif mif-pencil"></span>  Editer</a>
+                                <a class="m-2" onclick="Metro.dialog.open('#delete_poste')" href="#">  <span class="mif mif-bin"></span> Supprimer</a>
+                            </div>
+
+                            <div id="delete_poste" class="dialog" data-role="dialog">
+                                <div class="modal-dialog">
+                                    @using (Html.BeginForm("Delete", "Poste"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(model => model.id)
+                                        @Html.HiddenFor(model => model.structure_id)
+
+                                        <h5 class="dialog-title"> Suppression </h5>
+
+                                        <div class="dialog-content text-center">
+                                            Supprimer le poste d'emploi <strong>@Model.ToString()</strong>
+                                            <p class="text-danger">(Action irréversible)</p>
+                                        </div>
+                                        <div class="dialog-actions text-right">
+                                            <button type="submit" class="button outline danger">  Supprimer</button>
+                                            <button type="button" class="js-dialog-close button">  Annuler  </button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold">
+                            Grade de fonction
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.grade_fonction)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold">
+                            Departement
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.structure)
+                        </td>
+                    </tr>
+                </table>
+                @*<a class="m-2" href="@Url.Action("Index","Home",new { area="PosteEmploi", id= Model.structure_id })">
+                <span class="mif mif-arrow-left"></span> Liste des postes
+                </a>*@
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-4 p-3">
+        <div class="card">
+            <div class="card-content">
+                <div class="float-right m-3">
+                    <span class="@(Model.agent_id == null?"danger":"success")">poste @Model.etat_poste</span>
+                </div>
+                <h4 class="text-center">OCCUPATION</h4>
+                @{Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/ProfilSynthese.cshtml", new ViewDataDictionary { Model = DATACCESS.ModuleAgent.AgentGet(Model.agent_id) });}
+            </div>
+        </div>
+    </div>
+</div>
+

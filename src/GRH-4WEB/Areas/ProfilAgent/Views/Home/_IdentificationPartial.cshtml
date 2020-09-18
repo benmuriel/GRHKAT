@@ -1,0 +1,135 @@
+﻿@model DATACCESS.Models.agent_synthese
+<div class="card mt-2">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Nom
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.nom)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Postnom
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.post_nom)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline   font-weight-bold">
+                        Prénom
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.prenom)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Genre
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.genre)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Lieu de naissance
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.lieu_naissance)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Date de naissance
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.date_naissance)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Etat civil
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.etat_civil)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Nationalité
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.nationalite)
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col">
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Tel 1
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.telepone_personel_1)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Tel 2
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.telephone_personel_2)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Mail 1
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.mail_personel_1)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Mail 2
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.mail_personel_2)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        ID Poitange
+                    </div>
+                    <div class="d-inline float-right">
+                        @Html.DisplayFor(model => model.id_pointage)
+                    </div>
+                </div>
+                <div class="m-2">
+                    <div class="d-inline font-weight-bold">
+                        Localisation térritoriale
+                    </div>
+                    <div class="d-inline float-right">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+<a class="button outline primary float-right"  onclick="Metro.dialog.open('#edit_ident')"  href="#">Editer</a>
+ 
+    <div id="edit_ident" class="dialog w-75" data-role="dialog">
+        @{ Html.RenderPartial("Create"); }
+    </div>
+ 
+
+

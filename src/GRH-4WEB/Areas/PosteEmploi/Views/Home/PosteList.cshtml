@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+<form class="form-inline m-2 w-100">
+    <div class="form-group col-md-12">
+        <input type="search" class="form-control col-md-12 searchField" data-found="#postcount" data-target="#posttable" placeholder="Trouver un poste ou un agent" />
+    </div>
+</form>
+
+<div class="h400 overflow-auto">
+    <table id="posttable" class="table row-border row-hover">
+        <thead>
+            <tr>
+                <th># </th>
+                <th>Poste </th>
+                <th>Occupant </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="searchable" v-for="(item,index) in datas" data-content="item.designation+item.occupant+item.matricule">
+                <td> {{ index+1 }}   </td>
+                <td class="">
+                    <span class="">{{item.poste_order_number}} #</span>{{item.fonction}}
+                    <div class="text-muted"> <small>{{ item.TypeFonction }}</small></div>
+                </td>
+                <td>
+                    <div class="text-bold"> <small>Poste {{ item.etat_poste }}</small></div>
+                    {{item.occupant}}
+                    <div v-if="item.agent_id != null">
+                        <small><span class="font-weight-bold">Matricule: </span>{{ item.matricule }} </small><br />
+                        <small><span class="font-weight-bold">Grade: </span> {{ item.grade_carriere }} </small>
+                    </div>
+
+                </td>
+                <td class="text-center">
+                    <div class="m-2">
+                        <a class="button outline primary" href="#" v-on:click="editPoste(item)">
+                            <span class="mif-pencil"></span>
+                        </a>
+                        <a class="button outline alert" href="#" v-on:click="deletePoste(item)">
+                            <span class="mif-bin"></span>
+                        </a>
+
+                    </div>
+                    <a href="#" v-if="item.agent_id != null" class="button outline primary" v-on:click="voirProfilAgent(item.agent_id)">Voir le profil</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p><span id="postcount"> {{ datas.length }} </span> resultat(s)</p>

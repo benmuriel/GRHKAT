@@ -1,0 +1,14 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Profil Agent- Accueil";
+}
+<div class="container-fluid" style="padding-top:50px ">
+    @RenderBody()
+</div>
+@section scripts{
+    <script>
+        $('#mod_profil_agent').addClass("text-bold text-underline");
+    </script>
+    @RenderSection("scripts", false);
+}

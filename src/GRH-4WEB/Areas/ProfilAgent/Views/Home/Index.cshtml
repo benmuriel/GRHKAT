@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DATACCESS.Models.agent_synthese>
+
+@{
+    Layout = "~/Areas/ProfilAgent/Views/Shared/_HomeLayout.cshtml";
+    ViewBag.Title = "Profil Agent";
+}
+
+<div id="search" class="d-none">@ViewBag.q</div>
+<div id="profil" class="d-none">@ViewBag.profil</div>
+<a id="profil-url" href="@Url.Action("Profil",new { id=0, area="ProfilAgent" })" class="d-none"></a>
+<a id="api-agent-url" class="d-none" href="@Url.Action("", "api/agent/", new { area ="" })"></a>
+<div class="row">
+    <div class="col-3">
+        <h5 class="m-2">
+            @ViewBag.pagetitle  @if (ViewBag.q != null)
+            {<span> pour "@ViewBag.q"</span>}
+        </h5>
+    </div>
+    <div class="col-4">
+        <a id="avec_emploi" class="button drop-shadow" href="@Url.Action("Index","Home", new {area="ProfilAgent" })">Profil avec emploi <span class="mif mif-user-check"></span> </a>
+
+        <a id="sans_emploi" class="button drop-shadow" href="@Url.Action("Index","Home",new {area="ProfilAgent", profil="sans_emploi" })">Profil sans emploi <span class="mif mif-user-minus"></span>  </a>
+
+        <a class="button drop-shadow" onclick="Metro.dialog.open('#create_ident')" href="#">Nouveau profil <span class="mif mif-user-plus"></span> </a>
+
+    </div>
+    <div class="col-3">
+        <form id="searchform" action="@Url.Action("Index","Home",new { area="ProfilAgent" })" method="get" class="form-inline w-100">
+            <input name="q" class="form-control" value="@ViewBag.q" type="text" placeholder="Rechercher" required />
+        </form>
+    </div>
+    <div class="col-1">
+        <button type="submit" onclick="submitSearch()" class="btn btn-primary ml-1">Rechercher</button>
+    </div>
+</div>
+
+
+<div id="app" class="row">
+    @{Html.RenderPartial("_SearchResultPartial"); }
+</div>
+
+<div id="create_ident" class="dialog w-75" data-role="dialog">
+    @{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/Create.cshtml", new DATACCESS.Models.agent_synthese()); }
+</div>
+
+
+@section scripts {
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/profilagent.js"></script>
+    <script>
+            $('#@ViewBag.profil').addClass('bg-cyan')
+            function submitSearch() {
+                $('#searchform').submit();
+            }
+    </script>
+}

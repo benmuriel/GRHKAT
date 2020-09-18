@@ -1,0 +1,22 @@
+﻿@model DATACCESS.Models.v_position_temporaire
+@{
+    Layout = null;
+}
+@if (Model != null)
+{
+    if (!Model.isValidated)
+    {
+        <div class="border p-2">
+            <span class="badge badge-warning">En attente de validation</span>
+            <div class="float-righ text-decoration-none">
+                <a href="@Url.Action("Edit", "PositionTemporaire", new { id = Model.id })">Editer</a> |
+                <a class="text-danger" href=# data-toggle="modal" data-target="#delete_@Model.id">Supprimer</a> |
+             </div>
+        </div> 
+        <div id="delete_@Model.id" class="modal fade" data-backdrop="static">
+            <div class="modal-dialog">
+                @{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_DeleteSituationPartial.cshtml"); }
+            </div>
+        </div>
+    }
+} 

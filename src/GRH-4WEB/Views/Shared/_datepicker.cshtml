@@ -1,0 +1,13 @@
+﻿@model string
+
+<button class="button" type="button"><span class="mif mif-calendar" onclick="Metro.dialog.open('#datepicker_@Model')"></span></button>
+
+<div class="dialog" data-role="dialog" id="datepicker_@Model">
+    <div class=" dialog-content row flex-justify-center">
+        <div data-role="calendar" data-target="@Model" 
+             data-buttons="false"
+             data-max-date="@DateTime.Today.ToString("yyyy/MM/dd")"
+             data-on-day-click="dateSelected"></div>
+    </div>
+
+</div>

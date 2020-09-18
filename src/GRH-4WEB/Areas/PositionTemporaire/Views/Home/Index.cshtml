@@ -1,0 +1,190 @@
+﻿@model IEnumerable<DATACCESS.Models.v_position_temporaire>
+
+@{
+    Layout = "~/Areas/PositionTemporaire/Views/Shared/_HomeLayout.cshtml";
+    ViewBag.Title = "Positions Temporaires";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="m-2">
+            <a id="list_-1" href="@Url.Action("Index","Home", new { area="PositionTemporaire" , id=-1, str=ViewBag.str })" class="button w-100">
+                ARCHIVES
+            </a>
+        </div>
+        <div class="m-2">
+            <a id="list_-2" href="@Url.Action("Index","Home", new { area="PositionTemporaire" , id=-2, str=ViewBag.str })" class="button w-100">
+                EN ATTENTE DE VAILDATION   <span class="badge inside">0</span>
+            </a>
+        </div>
+        <div class="m-2">
+            <a id="list_0" href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=0 ,str=ViewBag.str })" class="button w-100">
+                SITUATION EN COURS  <span class="badge inside">0</span>
+            </a>
+        </div>
+        <div data-role="accordion"
+             data-one-frame="false"
+             data-show-active="true">
+
+            @foreach (var item in DATACCESS.ModulePlanning.CategorieTypePosition())
+            {
+                <div class="frame border rounded bd-gray">
+                    <div class="heading">@item.description</div>
+                    <div class="content p-1">
+                        @foreach (var type in DATACCESS.ModulePlanning.TypesPositionTemporaire(item.designation))
+                        {
+                            <div class="m-3 border bd-cyan border-right-none border-top-none border-left-none">
+                                <a href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=type.id, str=ViewBag.str })">
+                                    @type.designation
+                                </a>
+                                <span class="badge inside">0</span>
+                            </div>
+                        } 
+                    </div>
+                </div> 
+            }
+        </div>
+
+        @*  <input type="checkbox" class="custom-control-input position_radio" value="@item.id" id="motif_@item.id">*@
+    </div>
+    <div class="col-md-9">
+        <h3>@ViewBag.Title - @ViewBag.PageTitle</h3>
+        <div class="row mt-2 ">
+            <div class="col-10">
+                <select class="form-control bo-select" id="str_id">
+                    <option value="0"
+                            href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=ViewBag.id })">
+                        Tous les services
+                    </option>
+                    @foreach (var item in DATACCESS.ModulePlanning.StructurePrincipaleLoad(null))
+                    {
+                        <option href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=ViewBag.id, str = item.id })"
+                                value="@item.id" @(item.id.ToString() == ViewBag.str ? "selected" : "")>
+                            @item.structure
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="col-2">
+                @if (ViewBag.id > 0 && Convert.ToInt16(ViewBag.str) > 0)
+                {
+                    <a href="@Url.Action("Create","Position", new {area= "PositionTemporaire", str=ViewBag.str, id =ViewBag.id })" class="button outline primary"> <span class="mif mif-plus"></span> Nouveau</a>
+                }
+            </div>
+        </div>
+
+        <input type="search" class="form-controlsearchField" data-found="#count" data-target="#data" placeholder="Filter la liste" />
+
+        <div class="overflow-auto col-12" style="height:350px;">
+            <table id="data" class="table striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>AGENT </th>
+                        <th>EMPLOI </th>
+                        <th>POSITION </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 0;}
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr class="searchable" data-content="@item.Describe">
+                                <td> @{i++;} @i  </td>
+                                <td>
+                                  @item.agent
+                                    <div>
+                                        <a href="@Url.Action("Profil", "Home", new {area="ProfilAgent" , id= item.agent_id })" target="_blank" class="button outline success">Voir le profil</a>
+                                    </div>
+                                </td>
+                                <td style="max-width:330px">
+                                    <span class="text-bold">@item.fonction</span> - @item.service
+                                </td>
+                                <td>
+                                    <p>@item.state_string</p>
+                                    <div class="text-bold"> @item.Describe</div>
+
+                                    <div class="text-right m-2">
+                                        @if (item.position_state == "tovalidate")
+                                        {
+                                            <a class="button outline primary" href="@Url.Action("Edit","Position", new {area= "PositionTemporaire", id=item.id })">Editer</a>
+                                            <button id="@item.id" dest="#delete_@item.id" href="@Url.Action("Delete","Position", new {area= "PositionTemporaire", id=item.id })" class="remote-content button outline alert">Supprimer</button>
+
+                                            @*<a href="#" class="button outline alert" onclick="Metro.dialog.open('#delete_@item.id')">Supprimer</a>*@
+                                            <div id="delete_@item.id" class="dialog" data-role="dialog">
+                                                @*@{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_SituationDeletePartial.cshtml", item); }*@
+                                            </div>
+                                        }
+                                        @if (item.position_state == "running" && item.duree == 0)
+                                        {
+                                            <button id="@item.id" dest="#terminate_@item.id" href="@Url.Action("Terminate","Position", new {area= "PositionTemporaire", id=item.id })" class="remote-content button outline primary">Terminer</button>
+                                            <div id="terminate_@item.id" class="dialog" data-role="dialog"> </div>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        @*$('#@ViewBag.etat').addClass('btn-primary text-light');
+        var str = $("#str_id");
+        str.attr("data-selected").split('-').forEach(function (item) {
+            if (item === "") return;
+            $(".position_radio").each(function () {
+                var me = $(this)
+                 if (Number(item) === Number(me.val())) {
+                    me.prop("checked", true)
+                }
+            });
+        });*@
+
+        $('.remote-content').click(function () {
+            var id = $(this).attr('id')
+            var dest = $(this).attr('dest')
+            var url = $(this).attr('href')
+            Metro.dialog.open(dest)
+            $.ajax({
+                method: "GET",
+                url :url
+            }).then(
+                function (response) {
+                    $(dest).html(response)
+
+                }, function (xlr) {
+
+                }
+            )
+
+        });
+        $('#list_@ViewBag.id').addClass('bg-cyan fg-white');
+        $('select.bo-select').change(function () {
+            document.location.href = $('option:selected', this).attr('href')
+        });
+
+        $('.state_link').click(function (e) {
+            e.preventDefault();
+            var ids ="";
+        $(".position_radio").each(function () {
+            var me = $(this)
+            if (me.is(":checked")) {
+                ids += "-"+me.val();
+            }
+        })
+            var url = $(this).attr("href") + "&t=" + ids.trim() + "&s=" + str.val()
+            document.location.href = url
+        });
+    </script>
+}
+

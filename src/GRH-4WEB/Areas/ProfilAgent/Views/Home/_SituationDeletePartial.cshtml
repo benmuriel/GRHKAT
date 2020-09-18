@@ -1,0 +1,30 @@
+﻿@model DATACCESS.Models.situation_agent
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("DeleteSituation", "Home", new { area = "ProfilAgent" }))
+{
+
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.agent_id)
+    @Html.HiddenFor(model => model.type_situation)
+    @Html.AntiForgeryToken()
+
+    <div class="dialog-title text-center">
+        <div> Suppression d'element de carrière en edition  </div>
+        <div class="text-bold">  @Model.TypeSituation()</div>
+    </div>
+
+    <div class="dialog-content">
+        @{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_SituationShortDescribePartial.cshtml"); }
+    </div>
+
+    <div class="dialog-actions text-right">
+        <button type="submit" class="button alert">  Supprimer</button>
+        <button type="button" class="button js-dialog-close">  Annuler  </button>
+    </div>
+
+
+}
+
+

@@ -1,0 +1,66 @@
+﻿@model GRH_4WEB.Models.GradeViewModel
+
+@{
+    Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
+}
+@section profil {
+    @{ Html.RenderAction("ProfilSynthese", "Home", new { id = Model.agent_id });}
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title"> Edition - Grade de carriere </h5>
+    </div>
+    <div class="card-content p-3">
+        @using (Html.BeginForm("Save", "GradeCarriere"))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.agent_id)
+            @Html.HiddenFor(model => model.situation_id)
+
+            <div class="row">
+                <label for="poste_id" class="col-form-label col-md-3">Grade</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.grade_id, new SelectList(DATACCESS.ModulePlanning.GradeLoad(),"id","describe"), new { @data_role="select" })
+
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.grade_id)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="col-form-label col-md-3">Référence</label>
+                <div class="col-md-6">
+                    @Html.TextAreaFor(model => model.reference, 3, 0, null)
+                    <div class="fg-red">
+                        @Html.ValidationMessageFor(model => model.reference)
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label class="col-form-label col-3">Date d'attribution</label>
+                <div class="col-6">
+                    @Html.EditorFor(model => model.started_at, new { htmlAttributes = new { @class = "date", @readonly = "readonly" } })
+
+                    <div class="fg-red">
+                        @Html.ValidationMessageFor(model => model.started_at)
+                    </div>
+                </div>
+                <div class="col-1">
+                    @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "started_at" ); }
+                </div>
+            </div>
+            <div class="p-4 border border-1 text-right bd-gray">
+                <button type="submit" class="button outline success">  Enregister</button>
+                <a href="@Url.Action("Profil","Home", new {id = Model.agent_id   })" class="button">  Annuler  </a>
+            </div>
+        }
+   
+    </div>
+</div>
+
+

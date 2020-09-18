@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F28A955C-75B7-4774-A38C-AC34F874007B}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GRH_4WEB</RootNamespace>
+    <AssemblyName>GRH-4WEB</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\PositionTemporaire\Controllers\HomeController.cs" />
+    <Compile Include="Areas\PositionTemporaire\Controllers\PositionController.cs" />
+    <Compile Include="Areas\PositionTemporaire\PositionTemporaireAreaRegistration.cs" />
+    <Compile Include="Areas\PosteEmploi\Controllers\HomeController.cs" />
+    <Compile Include="Areas\PosteEmploi\PosteEmploiAreaRegistration.cs" />
+    <Compile Include="Areas\ProfilAgent\Controllers\ChargeSocialeController.cs" />
+    <Compile Include="Areas\ProfilAgent\Controllers\EmploiController.cs" />
+    <Compile Include="Areas\ProfilAgent\Controllers\GradeCarriereController.cs" />
+    <Compile Include="Areas\ProfilAgent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\ProfilAgent\Controllers\MatriculeController.cs" />
+    <Compile Include="Areas\ProfilAgent\Controllers\PositionTemporaireController.cs" />
+    <Compile Include="Areas\ProfilAgent\ProfilAgentAreaRegistration.cs" />
+    <Compile Include="Areas\Validation\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Validation\ValidationAreaRegistration.cs" />
+    <Compile Include="Controllers\Api\AgentController.cs" />
+    <Compile Include="Controllers\Api\FonctionController.cs" />
+    <Compile Include="Controllers\Api\PosteEmploiController.cs" />
+    <Compile Include="Controllers\Api\StructureController.cs" />
+    <Compile Include="Controllers\Api\ValidationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DureePosition.cs" />
+    <Compile Include="Models\EmploiViewModel.cs" />
+    <Compile Include="Models\GradeViewModel.cs" />
+    <Compile Include="Models\MatriculeViewModel.cs" />
+    <Compile Include="Models\PositionTemporaireViewModel.cs" />
+    <Compile Include="Models\PosteViewModel.cs" />
+    <Compile Include="Models\SitualtionViewModel.cs" />
+    <Compile Include="Models\ValidationViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\hkat_logo.jpeg" />
+    <Content Include="Content\Images\person.png" />
+    <Content Include="Content\metro\css\metro-all.css" />
+    <Content Include="Content\metro\css\metro-all.min.css" />
+    <Content Include="Content\metro\css\metro-animations.css" />
+    <Content Include="Content\metro\css\metro-animations.min.css" />
+    <Content Include="Content\metro\css\metro-colors.css" />
+    <Content Include="Content\metro\css\metro-colors.min.css" />
+    <Content Include="Content\metro\css\metro-common.css" />
+    <Content Include="Content\metro\css\metro-common.min.css" />
+    <Content Include="Content\metro\css\metro-components.css" />
+    <Content Include="Content\metro\css\metro-components.min.css" />
+    <Content Include="Content\metro\css\metro-icons.css" />
+    <Content Include="Content\metro\css\metro-icons.min.css" />
+    <Content Include="Content\metro\css\metro-reset.css" />
+    <Content Include="Content\metro\css\metro-reset.min.css" />
+    <Content Include="Content\metro\css\metro-rtl.css" />
+    <Content Include="Content\metro\css\metro-rtl.min.css" />
+    <Content Include="Content\metro\css\metro.css" />
+    <Content Include="Content\metro\css\metro.min.css" />
+    <Content Include="Content\metro\css\schemes\darcula.css" />
+    <Content Include="Content\metro\css\schemes\darcula.min.css" />
+    <Content Include="Content\metro\css\schemes\red-alert.css" />
+    <Content Include="Content\metro\css\schemes\red-alert.min.css" />
+    <Content Include="Content\metro\css\schemes\red-dark.css" />
+    <Content Include="Content\metro\css\schemes\red-dark.min.css" />
+    <Content Include="Content\metro\css\schemes\red-mirohost.css" />
+    <Content Include="Content\metro\css\schemes\red-mirohost.min.css" />
+    <Content Include="Content\metro\css\schemes\sky-net.css" />
+    <Content Include="Content\metro\css\schemes\sky-net.min.css" />
+    <Content Include="Content\metro\mif\metro.svg" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\axios.min.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\PositionTemporaire\Views\Home\Index.cshtml" />
+    <Content Include="Areas\PositionTemporaire\Views\Home\_SearchResultPartial.cshtml" />
+    <Content Include="Areas\PositionTemporaire\Views\Position\Create.cshtml" />
+    <Content Include="Areas\PositionTemporaire\Views\Position\Terminate.cshtml" />
+    <Content Include="Areas\PositionTemporaire\Views\Shared\_HomeLayout.cshtml" />
+    <Content Include="Areas\PositionTemporaire\Views\web.config" />
+    <Content Include="Areas\PosteEmploi\Views\Home\Create.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\Home\Delete.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\Home\Index.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\Home\Poste.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\Home\PosteList.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\Home\StrTree.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\Shared\_HomeLayout.cshtml" />
+    <Content Include="Areas\PosteEmploi\Views\web.config" />
+    <Content Include="Areas\ProfilAgent\Views\ChargeSociale\Create.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\ChargeSociale\Delete.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\ChargeSociale\Details.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\ChargeSociale\Edit.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\ChargeSociale\Index.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Emploi\Create.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Emploi\ToValidate.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\GradeCarriere\Create.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\GradeCarriere\ToValidate.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\Create.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\Index.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\Profil.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\ProfilSynthese.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_ElementCarrierePartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_EtatServicePartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_IdentificationPartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_InfoSupPartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_PositionTemporairePartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_PositionTemporaireProfilPartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_SearchResultPartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_SituationDeletePartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Home\_SituationShortDescribePartial.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Matricule\Create.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Matricule\ToValidate.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\PositionTemporaire\ToValidate.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Shared\_HomeLayout.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\Shared\_ProfilAgentLayout.cshtml" />
+    <Content Include="Areas\ProfilAgent\Views\web.config" />
+    <Content Include="Areas\Validation\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Validation\Views\Home\_ValidateSituationPartial.cshtml" />
+    <Content Include="Areas\Validation\Views\Shared\_HomeLayout.cshtml" />
+    <Content Include="Areas\Validation\Views\web.config" />
+    <Content Include="Content\metro\mif\metro.json" />
+    <Content Include="Content\metro\mif\metro.ttf" />
+    <Content Include="Content\metro\mif\metro.woff" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\metro\js\metro.js" />
+    <Content Include="Scripts\metro\js\metro.min.js" />
+    <Content Include="Scripts\site.js" />
+    <Content Include="Scripts\vue.js" />
+    <Content Include="Scripts\vue.min.js" />
+    <Content Include="Scripts\VueApps\posteemploi.js" />
+    <Content Include="Scripts\VueApps\profilagent.js" />
+    <Content Include="Scripts\VueApps\validation.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\metro\js\metro.min.js.map" />
+    <Content Include="Views\Shared\_AccueilLayout.cshtml" />
+    <Content Include="Views\Shared\_datepicker.cshtml" />
+    <Content Include="Views\Shared\_PositionTemporaireLayout.cshtml" />
+    <Content Include="Views\Shared\_ServiceEmploiLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\PositionTemporaire\Data\" />
+    <Folder Include="Areas\PosteEmploi\Data\" />
+    <Folder Include="Areas\ProfilAgent\Data\" />
+    <Folder Include="Areas\Validation\Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DATACCESS\DATACCESS.csproj">
+      <Project>{8f3bca77-a36e-40a8-8874-1645e7aad42f}</Project>
+      <Name>DATACCESS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50347</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50347/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

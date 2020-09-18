@@ -1,0 +1,26 @@
+﻿@model DATACCESS.Models.v_position_temporaire
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Terminate", "Position", new { id=Model.id, area = "PositionTemporaire" }))
+{
+    @Html.HiddenFor(model => model.id) 
+    @Html.AntiForgeryToken()
+
+    <div class="dialog-title text-center">
+        <div> Terminer une situation  </div> 
+    </div>
+
+    <div class="dialog-content m-5">
+        Confirmer la fin de la position  <span class="text-bold">@Model.Describe</span> ?
+    </div>
+
+    <div class="dialog-actions text-right">
+        <button type="submit" class="button alert">  Confirmer</button>
+        <button type="button" class="button js-dialog-close">  Annuler  </button>
+    </div>
+
+
+}
+
+

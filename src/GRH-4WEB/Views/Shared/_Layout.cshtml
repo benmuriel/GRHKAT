@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - GRH4HKAT</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div data-role="appbar" data-expand-point="md" class="bg-cyan fg-white">
+        <a href="@Url.Action("Index", "Home", new { area=""})" class="brand no-hover">
+            <span class="text-it">
+                GRH-HK Gestion des Effectifs
+            </span>
+        </a>
+        <ul class="app-bar-menu">
+            <li id="mod_profil_agent">
+                <a href="@Url.Action("Index", "Home", new { area="ProfilAgent" })">Profils Agents</a>
+            <li>
+            <li id="mod_posteemploi">
+                <a href="@Url.Action("Index", "Home", new { area="PosteEmploi" })">Postes &amp; emplois</a>
+            </li>
+            <li id="mod_position_temporaire">
+                <a href="@Url.Action("Index", "Home", new { area="PositionTemporaire",id =0 }) ">Positions Temporaires</a>
+            </li>
+            <li id="mod_validation">
+                <a href="@Url.Action("Index", "Home", new { area="Validation" })">Validations</a>
+            </li>
+
+        </ul>
+    </div>
+
+    @*<form class="form-inline">
+            <input class="form-control vw-100 mr-sm-2" type="search" placeholder="Rechercher un agent" aria-label="Trouver un agent" />
+            <button class="btn btn-outline-success">Ok</button>
+        </form>*@
+
+
+    <div class=" pt-3">
+        @RenderBody()
+    </div>
+
+    <div class="container pos-fixed fixed-bottom">
+        <footer>
+            <p class="text-center">&copy; @DateTime.Now.Year - Division de l'Informatique</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/metro")
+
+
+    @if (TempData["Msg"] != null)
+    {
+        <script>
+        Metro.toast.create('@TempData["Msg"]',null,10000,'bg-@TempData["MsgType"]') 
+        </script>
+    }
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

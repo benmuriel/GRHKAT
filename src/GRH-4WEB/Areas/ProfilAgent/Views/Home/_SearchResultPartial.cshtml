@@ -1,0 +1,42 @@
+﻿ 
+ 
+    <div class="container">
+        <input type="search" class="col-md-12 searchField" data-found="#count" data-target="#data" placeholder="Filter la liste" />
+        <div class="" style="height:500px; overflow-x:scroll;">
+            <table id="data" class="table striped row-border row-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>Profil  </th>
+                    <th>Matricule  </th>
+                    <th>Grade </th>
+                    <th>Emploi </th>
+                </tr>                
+                    <tr class="searchable" v-for="item in datas" v-bind:data-content="item.nom_complet+item.service+item.matricule">
+                        <td class="text-small">
+                            RECID:{{item.agent_id}}
+                            <p>PGTID:{{item.id_pointage}}</p>
+                        </td>
+                        <td>
+                            <div class="text-bold">{{item.nom_complet }} </div>
+                            <a href="#" v-on:click="profil(item.agent_id)">Details>></a>
+                            @*  @Html.ActionLink("", "Profil", new { id =  }, new {   target ="_blank" })*@
+                        </td>
+                        <td>
+                            {{ item.matricule }}
+                        </td>
+                        <td>
+                            {{ item.grade_carriere }}
+                        </td>
+                        <td style="min-width:200px;"> 
+                            <strong>{{ item.fonction }} </strong> -
+                          {{ item.service }}
+                        <div class="text-muted fg-green">{{ item.etat_service }}</div>
+                        </td>
+                    </tr>                
+            </table>
+        </div>
+        <div class="">
+            <div class="text-left mt-2"><span id="count"> {{ datas.length }} </span>resultat(s)</div> <hr />
+        </div>
+    </div>
+ 

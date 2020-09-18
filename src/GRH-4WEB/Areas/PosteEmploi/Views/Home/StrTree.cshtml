@@ -1,0 +1,22 @@
+﻿ 
+@{
+    Layout = null;
+}
+<form class="form-inline m-2 w-100" @*action="@Url.Action("Index","ServiceEmploi")" method="get"*@>
+    <div class="form-group col-md-12">
+        <input type="text"  data-found="#strcount" data-target="#treeTable" class="form-control col-md-12 searchField" placeholder="Trouver un departement" />
+    </div>
+    @*<button type="submit" class="btn btn-outline-primary  m-2">Ok</button>*@
+</form>
+
+<div class="h500 overflow-auto">
+    <table id="treeTable" class="table striped row-border row-hover compact">      
+            <tr class="searchable" v-for="(item, index) in depts" v-bind:data-content="item.fullName">
+                <td> {{ index +1 }}</td>
+                <td>
+                    <a class="str" v-bind:id="'str_'+item.id" href="#" v-on:click="changeDepartement(item.id,item.fullName)">{{ item.fullName }}</a>
+                </td>
+            </tr>        
+    </table>
+</div>
+<p><span id="strcount">{{ depts.length }}</span>  resultat(s)</p>

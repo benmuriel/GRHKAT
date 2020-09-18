@@ -1,0 +1,103 @@
+﻿
+
+
+@{
+    Layout = "~/Areas/Validation/Views/Shared/_HomeLayout.cshtml";
+    ViewBag.Title = " Validatation en attente ";
+}
+
+<a id="api-validation-url" class="d-none" href="@Url.Action("", "api/validation/", new { area ="" })"></a>
+<div id="page" class="d-none">@ViewBag.page</div>
+<div id="app" class="row">
+    <div class="col-md-3">
+        <div class="m-2">
+            <a id="list_matricule" href="@Url.Action("Index", "Home", new { area = "Validation", id = "matricule" })" class="button w-100">
+                MATRICULES   <span class="badge inside">0</span>
+            </a>
+        </div>
+        <div class="m-2">
+            <a id="list_grade" href="@Url.Action("Index", "Home", new { area = "Validation", id = "grade" })" class="button w-100">
+                GRADES DE CARRIERES   <span class="badge inside">0</span>
+            </a>
+        </div>
+        <div class="m-2">
+            <a id="list_emploi" href="@Url.Action("Index", "Home", new { area = "Validation", id = "emploi" })" class="button w-100">
+                EMPLOIS  <span class="badge inside">0</span>
+            </a>
+        </div>
+        <div class="m-2">
+            <a id="list_position" href="@Url.Action("Index", "Home", new { area = "Validation", id = "position" })" class="button w-100">
+                POSITIONS TEMPORAIRES  <span class="badge inside">0</span>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h3>@ViewBag.Title - @ViewBag.PageTitle</h3>
+
+        <input type="search" class="form-controlsearchField" data-found="#count" data-target="#data" placeholder="Filter la liste" />
+
+        <div class="overflow-auto h500 col-12">
+            <table id="data" class="table striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>AGENT </th>
+                        <th>DATE DE DEMANDE DE VALIDATION </th>
+                        <th>DETAILS </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in datas" class="searchable" data-content="item.agent">
+                        <td>  </td>
+                        <td>
+                            {{item.objet_id }}   {{item.agent }}
+                        </td>
+                        <td>
+                            {{item.requested_at}}
+                        </td>
+                        <td>
+                            {{item.details}}
+                        </td>
+                        <td>
+                            <a href="#" class="button outline success" v-on:click="validationForm(item)"> <span class="mif-checkmark"></span> Valider</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><span id="postcount"> {{ datas.length }}</span> resultat(s)</p>
+        <div id="validationform" class="dialog" data-role="dialog">
+            @{ Html.RenderPartial("_ValidateSituationPartial"); }
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/validation.js"></script>
+    <script>
+
+        $('#list_@ViewBag.page').addClass('bg-cyan fg-white');
+        $('#list_@ViewBag.id').addClass('bg-cyan fg-white');
+        $('select.bo-select').change(function () {
+            document.location.href = $('option:selected', this).attr('href')
+        });
+
+        $('.state_link').click(function (e) {
+            e.preventDefault();
+            var ids ="";
+        $(".position_radio").each(function () {
+            var me = $(this)
+            if (me.is(":checked")) {
+                ids += "-"+me.val();
+            }
+        })
+            var url = $(this).attr("href") + "&t=" + ids.trim() + "&s=" + str.val()
+            document.location.href = url
+        });
+    </script>
+}
+

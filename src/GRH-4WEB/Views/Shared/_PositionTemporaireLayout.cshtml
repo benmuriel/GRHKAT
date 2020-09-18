@@ -1,0 +1,15 @@
+﻿
+
+@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Title = "Position temporaire";
+}
+<div class="container-fluid body-content p-2"> 
+            @RenderBody() 
+</div>
+@section scripts{
+    <script>
+        $('#mod_position_temporaire').addClass("active");
+    </script>
+    @RenderSection("scripts", false);
+}

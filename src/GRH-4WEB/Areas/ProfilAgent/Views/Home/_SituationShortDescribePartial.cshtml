@@ -1,0 +1,22 @@
+﻿@model DATACCESS.Models.situation_agent
+@{
+    Layout = null;
+}
+<div class="form-group row">
+    <label class="control-label col-md-4 text-bold">Element</label>
+    <div class="col-md-8">
+        <div class="border rounded p-1">@Model.ToString()</div>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="control-label col-md-4 text-bold">Référence</label>
+    <div class="col-md-8">
+        <div class="border rounded p-1">@Model.start_reference</div>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="control-label col-md-4 text-bold">Date d'attribution</label>
+    <div class="col-md-8">
+        <div class="border rounded p-1"> @Model.started_at_string </div>
+    </div>
+</div> 

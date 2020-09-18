@@ -1,0 +1,47 @@
+﻿@model DATACCESS.Models.agent_synthese
+
+@{
+    Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
+    ViewBag.Title = "Profil Agent (" + Model.ToString() + ")";
+}
+
+
+@section profil {
+    @{Html.RenderPartial("ProfilSynthese");}
+}
+
+<div data-role="buttongroup" class="text-center m-2">
+    <a id="home" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id })" class="button outline primary">Carrière <span class="badge inline">3/3</span> </a>
+    <a id="identification" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page="identification" })" class="button outline primary">Identification</a>
+    <a id="position_temporaire" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="position_temporaire" })" class="button  outline  primary">Positions temporaires <span class="badge inline">0</span> </a>
+    <a id="charge_sociale" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="charge_sociale" })" class="button outline primary">Personnes à charge <span class="badge inline">0</span> </a>
+    <a id="etudes_faites" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id, page= "etudes_faites" })" class="button  outline primary">Autres <span class="badge inline">0</span> </a>
+</div>
+
+@{
+    string page = ViewBag.page;
+    switch (page)
+
+    {
+        case "etudes_faites":
+        case "charge_sociale":
+            Html.RenderAction("Index", "ChargeSociale", new { id = Model.agent_id });
+            break;
+        case "identification":
+            Html.RenderPartial("_IdentificationPartial");
+            break;
+        case "position_temporaire":
+            Html.RenderPartial("_PositionTemporaireProfilPartial");
+            break;
+        default:
+            Html.RenderPartial("_ElementCarrierePartial");
+            break;
+    }
+}
+
+@section scripts{
+    <script>       
+        $('#@ViewBag.page').removeClass("outline");
+    </script>
+
+}

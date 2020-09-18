@@ -1,0 +1,21 @@
+﻿@model DATACCESS.Models.agent_synthese
+
+<div class="card">
+
+    @if (Model != null)
+    {
+        <div class="card-header text-center bg-gray @(Model.fin_carriere_id != null ? "bg-danger" : Model.etat_service.IndexOf("attente") > 0 ? "bg-warning" : "bg-success text-light")">
+            <strong>Etat de service :</strong>   @Model.etat_service
+        </div>
+    }
+    <div class="card-body text-center">
+        <img class="card-img-to " height="200" width="200" src="~/Content/Images/person.png" alt="agent" />
+        @if (Model != null)
+        {
+            <h5 class="card-title">@Model.nom_complet</h5>
+            <small><strong>RECID</strong>: @Model.agent_id <strong>PTGID</strong> :@Model.id_pointage</small>
+            <div>@Model.fullEmploi()</div>
+        }
+    </div>
+</div>
+
