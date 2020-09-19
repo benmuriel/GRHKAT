@@ -2,8 +2,14 @@
 
 
 <div class="card mt-1 shadow-1">
-    <div class="card-header bg-gray">
-        <strong class="=" @(Model.carriere_id == null ? "fg-red" : "fg-black") ">  @if(Model.carriere_id != null) { <span class="mif mif-done fg-white bg-green p-1"></span> } Matricule</strong> :   @Model.matricule
+    <div class="card-header border-1 @(Model.carriere_id != null ? "bd-green" : "bg-gray") ">
+        <strong class="=" @(Model.carriere_id == null ? "fg-red" : "fg-black") ">
+        @if(Model.carriere_id != null) { 
+            <span class="mif mif-done fg-white bg-green p-1"></span> 
+        }
+        Matricule
+            </strong> 
+        :   @Model.matricule
     </div>
     <div class="card-body p-1 row">
         <div class="col-8">
@@ -33,7 +39,7 @@
 
 
 <div class="card mt-1 shadow-1">
-    <div class="card-header bg-gray">
+    <div class="card-header border-1 @(Model.grade_carriere != null ? "bd-green" : "bg-gray")">
          <strong class=" @(Model.grade_carriere == null ? "fg-red" : "fg-black")"> 
         @if (Model.grade_carriere != null) { <span class="mif mif-done fg-white bg-green p-1"></span>} 
         Grade de carriere</strong>: @Model.grade_carriere_describe
@@ -66,7 +72,7 @@
 
 
 <div class="card mt-1 shadow-1">
-    <div class="card-header bg-gray">
+    <div class="card-header border-1  @(Model.emploi_id != null ? "bd-green" : "bg-gray")">
         <strong class=" @(Model.emploi_id == null?"fg-red":"fg-black")">
             @if (Model.emploi_id != null)
             {<span class="mif mif-done fg-white bg-green p-1"></span>} Emploi
@@ -105,8 +111,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-

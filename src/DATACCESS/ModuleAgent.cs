@@ -98,23 +98,6 @@ namespace DATACCESS
 
 
 
-        public static List<agent_synthese> AgentLoadByStr(short? id, string filter)
-        {
-            try
-            {
-                var result = DB.Database.SqlQuery<agent_synthese>("exec dbo.sp_moduleagent_agent_load_by_str @str_id, @filter",
-                new SqlParameter { ParameterName = "@str_id", Value = id ?? SqlInt64.Null, DbType = System.Data.DbType.Int64 },
-                new SqlParameter { ParameterName = "@filter", Value = filter ?? SqlString.Null, DbType = System.Data.DbType.String }
-                );
-
-                return result.ToList();
-            }
-
-            catch (Exception e)
-            {
-                throw (e);
-            };
-        }
         public static int SituationAgentCarriereSave(carriere carriere)
         {
             try
@@ -137,12 +120,14 @@ namespace DATACCESS
         }
 
 
-        public static List<agent_synthese> AgentLoad(string filter)
+        public static List<agent_synthese> AgentLoad(short? str_id,string filter, string search)
         {
             try
             {
-                var result = DB.Database.SqlQuery<agent_synthese>("exec dbo.sp_moduleagent_agent_load @filter",
-              new SqlParameter { ParameterName = "@filter", Value = filter ?? SqlString.Null, DbType = System.Data.DbType.String }
+                var result = DB.Database.SqlQuery<agent_synthese>("exec dbo.sp_moduleagent_agent_load @str_id= @_str_id, @search = @_search,  @filter = @_filter",
+              new SqlParameter { ParameterName = "@_str_id", Value = str_id ?? SqlInt16.Null, DbType = System.Data.DbType.Int16 },
+              new SqlParameter { ParameterName = "@_search", Value = search ?? SqlString.Null, DbType = System.Data.DbType.String },
+              new SqlParameter { ParameterName = "@_filter", Value = filter ?? SqlString.Null, DbType = System.Data.DbType.String }
               );
 
                 return result.ToList();

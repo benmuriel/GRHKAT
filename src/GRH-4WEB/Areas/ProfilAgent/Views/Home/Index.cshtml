@@ -5,6 +5,7 @@
     ViewBag.Title = "Profil Agent";
 }
 
+<a id="api-structure-url" class="d-none" href="@Url.Action("", "api/structure", new { area ="" })"></a>
 <div id="search" class="d-none">@ViewBag.q</div>
 <div id="profil" class="d-none">@ViewBag.profil</div>
 <a id="profil-url" href="@Url.Action("Profil",new { id=0, area="ProfilAgent" })" class="d-none"></a>
@@ -24,7 +25,7 @@
         <a class="button drop-shadow" onclick="Metro.dialog.open('#create_ident')" href="#">Nouveau profil <span class="mif mif-user-plus"></span> </a>
 
     </div>
-    <div class="col-3">
+    <div class="col-3"> 
         <form id="searchform" action="@Url.Action("Index","Home",new { area="ProfilAgent" })" method="get" class="form-inline w-100">
             <input name="q" class="form-control" value="@ViewBag.q" type="text" placeholder="Rechercher" required />
         </form>

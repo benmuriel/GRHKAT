@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <tr class="searchable" v-for="(item,index) in datas" data-content="item.designation+item.occupant+item.matricule">
-                <td> {{ index+1 }}   </td>
+                <td> <span v-bind:class="{ 'bd-white bg-green rounded p-1 fg-white': item.agent_id != null }">{{ index+1 }} </span> </td>
                 <td class="">
                     <span class="">{{item.poste_order_number}} #</span>{{item.fonction}}
                     <div class="text-muted"> <small>{{ item.TypeFonction }}</small></div>
@@ -30,7 +30,6 @@
                         <small><span class="font-weight-bold">Matricule: </span>{{ item.matricule }} </small><br />
                         <small><span class="font-weight-bold">Grade: </span> {{ item.grade_carriere }} </small>
                     </div>
-
                 </td>
                 <td class="text-center">
                     <div class="m-2">
@@ -40,9 +39,8 @@
                         <a class="button outline alert" href="#" v-on:click="deletePoste(item)">
                             <span class="mif-bin"></span>
                         </a>
-
                     </div>
-                    <a href="#" v-if="item.agent_id != null" class="button outline primary" v-on:click="voirProfilAgent(item.agent_id)">Voir le profil</a>
+                    <a href="#" v-if="item.agent_id != null" class="button success" v-on:click="voirProfilAgent(item.agent_id)">Voir le profil</a>
                 </td>
             </tr>
         </tbody>
