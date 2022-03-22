@@ -1,0 +1,50 @@
+﻿@model DATACCESS.GENG.Models.type_prise_en_charge
+@{
+    Layout = null;
+}
+
+    <button title="Editer l'instance d'execution" class=" primary button outline rounded small"
+            onclick="Metro.dialog.open('#edit_@Model.id')">
+        <i class="mif-pencil"></i>Editer
+    </button>
+
+<div class="dialog w-50" data-role="dialog" id="edit_@Model.id">
+
+    @using (Html.BeginForm("Update", "TypePriseEnCharge"))
+    {
+        <div class="dialog-title">Edition type de prise en charge</div>
+        <div class="dialog-content">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.id)  
+            @Html.HiddenFor(model => model.designation)  
+            <div class="row mb-2">
+                <label class="cell-sm-3 text-bold">Type de prise en charge</label>
+                <div class="cell-sm-9">
+             <input type="text"  value="@Model.designation" class="metro-input text-bold" readonly/>
+                </div>
+            </div>  
+            <div class="row mb-2">
+                <label class="cell-sm-3 text-bold">Instance d'engagement</label>
+                <div class="cell-sm-9">
+                    @Html.DropDownListFor(model => model.instance_engagement_id,new SelectList (DATACCESS.GENG.ServiceRepartition.instanceExcutionLoad(),"id","designation",null), new { @class = "metro-input" })
+                </div>
+            </div> 
+        <div class="row mb-2">
+                <label class="cell-sm-3 text-bold">Instance d'execution</label>
+                <div class="cell-sm-9">
+                    @Html.DropDownListFor(model => model.instance_execution_id,new SelectList (DATACCESS.GENG.ServiceRepartition.instanceExcutionLoad(),"id","designation",null), new { @class = "metro-input" })
+                </div>
+            </div> 
+        <div class="row mb-2">
+                <label class="cell-sm-3 text-bold">Instance de liquidation</label>
+                <div class="cell-sm-9">
+                    @Html.DropDownListFor(model => model.instance_liquidation_id,new SelectList (DATACCESS.GENG.ServiceRepartition.instanceExcutionLoad(),"id","designation",null), new { @class = "metro-input" })
+                </div>
+            </div> 
+        </div>
+        <div class="dialog-actions text-right">
+            <button type="submit" class="button primary">Ok</button>
+            <button type="button" class="button js-dialog-close">Annuler</button>
+        </div>
+    }
+</div>

@@ -11,18 +11,19 @@ namespace DATACCESS.Models
     {
         [Key]
         public short id { get; set; }
-
         public long? type_structure_id { get; set; }
         public string type_structure { get; set; }
-        public bool is_affectation { get; set; }
-        public string structure { get; set; }
+         public string structure { get; set; }
         public string designation { get; set; }
 
         public short? parent_id { get; set; }
         public long? poste_id { get; set; }
       
         public short lvl { get; set; }
-
+        public int nbe_poste { get; set; }
+        public int nbe_poste_occupied { get; set; }
+        public int nbe_poste_vacant { get; set; }
+ 
         public override string ToString()
         {
             return structure;

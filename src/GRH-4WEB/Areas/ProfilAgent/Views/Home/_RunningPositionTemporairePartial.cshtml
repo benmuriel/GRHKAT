@@ -1,0 +1,52 @@
+﻿
+<h5>Situations d'agent en cours</h5>
+@if (Model != null)
+{ 
+    <table class="table striped compact">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Déscription</th>
+                <th>Date de debut</th>
+                <th>Date de fin</th>
+                <td>Durée</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                List<DATACCESS.Models.v_position_temporaire> data = DATACCESS.ModuleAgent.PositionTemporaireLoad(Model.agent_id, "running", null, null);
+                int i = 0;
+            }
+            @if (data.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    <tr>
+                        <td>@{i++;} @i</td>
+                        <td>@item.type_position</td>
+                        <td class="w-25-lg w-50-md">
+                            @if (item.isRunning)
+                            {
+                                <div class="float-right">
+                                    <button title="Voir le qrcode de la déscription" class="button" onclick="createQrCode('@item.type_position','@item.description')"> <i class="mif-qrcode"></i></button>
+                                </div>
+                            } @item.Describe
+                        </td>
+                        <td>@item.created_at_string</td>
+                        <td>@item.ended_at_string</td>
+                        <td>@item.duree_string</td>
+                    </tr>
+                }
+            }
+            else
+            {
+              <tr> 
+                  <td colspan="6" class="text-bold text-center p-2 fg-red">Aucune situation agent en cours</td>
+              </tr>   
+            }
+
+        </tbody>
+    </table>
+
+}

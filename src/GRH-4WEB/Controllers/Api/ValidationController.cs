@@ -11,27 +11,10 @@ namespace GRH_4WEB.Controllers.Api
 {
     public class ValidationController : ApiController
     {
-        public IEnumerable<v_all_validation> Get(string id)
+        public IEnumerable<v_position_temporaire> Get(short id, string profil=null, long? agent_id=null)
         {
-            List<v_all_validation> data = new List<v_all_validation>();
-            switch (id)
-            {
-                case "matricule":
-
-                    data = DATACCESS.ModuleAgent.WaitingValidationLoad(null, "matricule");
-                    break;
-                case "grade":
-
-                    data = DATACCESS.ModuleAgent.WaitingValidationLoad(null, "grade");
-                    break;
-                case "emploi":
-
-                    data = DATACCESS.ModuleAgent.WaitingValidationLoad(null, "emploi");
-                    break;
-                case "position":
-                    data = DATACCESS.ModuleAgent.WaitingValidationLoad(null, "position");
-                    break;
-            }
+            List<v_position_temporaire> data = new List<v_position_temporaire>(); 
+            data = DATACCESS.ModuleAgent.WaitingValidationLoad(id, profil, agent_id);
             return data;
         }
 
@@ -40,12 +23,12 @@ namespace GRH_4WEB.Controllers.Api
             if (ModelState.IsValid)
             {
                 try
-                {
-                    DATACCESS.ModuleAgent.SituationAgentValidate(entity.objet_id);
+                {                  
+                    DATACCESS.ModuleAgent.SituationAgentValidate(entity.id, entity.request_for);
                 }
                 catch (Exception e)
                 {
-                    return Ok(e.ToString());
+                    throw(e);
                 }
                 return Ok("Operation éffectuée avec succès");
             }

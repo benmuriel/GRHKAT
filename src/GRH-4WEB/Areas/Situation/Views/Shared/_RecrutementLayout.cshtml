@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Rerutement";
+}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2"> 
+                <h4 class="m-2">Recrutement</h4><hr />
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a id="tp_0" href="@Url.Action("Index", "Enregistrement", new { area ="Situation" })" class="button outline primary  w-100 m-2">Enregistrements</a>
+                            </td>
+                        </tr>
+                        @foreach (DATACCESS.Models.type_position item in DATACCESS.DAO.TypeSituationLoad("recrutement"))
+                        {
+                            <tr>
+                                <td><a id="tp_@item.id" href="@Url.Action("List", "Recrutement", new { id=item.id, area ="Situation" })"  class="button primary outline w-100 m-2">@item.designation</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-10"> @RenderBody()</div>
+        </div>
+    </div>
+
+@section scripts{
+    <script>
+        $('#mod_recrutement').addClass("text-bold text-underline");
+    </script>
+    @RenderSection("scripts", false)
+}

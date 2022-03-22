@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+<form>
+    @Html.AntiForgeryToken()
+    <input type="hidden" v-model="item.id" />
+    <div class="dialog-title text-center">
+        <div> Validation {{ item.type_position }} </div>
+    </div>
+    <div class="dialog-content">
+        <div class="text-bold">{{ item.agent }} </div>
+        <small> {{ item.description }} </small> 
+        <div class="text-bold">  {{item.details }}</div>
+        <small>Duree: {{ item.periode }} {{  item.duree_string }}</small>
+    </div>
+    <div class="dialog-actions text-right">
+        <button type="button" class="button success  js-dialog-close" v-on:click="validate"><i class="mif-checkmark"></i>  Valider</button>
+        <button type="button" class="button js-dialog-close"><i class="mif-cross"></i>  Annuler  </button>
+    </div>
+</form>
+
+

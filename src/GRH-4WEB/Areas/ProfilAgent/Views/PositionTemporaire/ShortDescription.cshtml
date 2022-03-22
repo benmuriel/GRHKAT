@@ -1,0 +1,22 @@
+﻿@model DATACCESS.Models.v_position_temporaire
+@{
+    Layout = null;
+}
+<table class="table table-condensed">
+    <tr>
+        <td>Description</td>
+        <td>@Model.Describe</td>
+    </tr><tr>
+        <td>Date de creation</td>
+        <td>@Model.created_at.ToString("d/M/yyyy")</td>
+    </tr>
+    <tr>
+        <td>Periode de validité</td>
+        <td>@Model.periode</td>
+    </tr> 
+    <tr>
+        <td>Reference</td>
+        <td>@Model.start_reference</td>
+    </tr>
+</table>
+ 

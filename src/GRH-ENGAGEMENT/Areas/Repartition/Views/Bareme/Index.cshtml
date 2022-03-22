@@ -1,0 +1,43 @@
+﻿@model DATACCESS.GENG.Models.type_prise_en_charge
+@{
+    ViewBag.Title = "Bareme";
+}
+
+    <h2>
+        Barème de prise en charge - 
+        @if (Model != null)
+        {
+            <u>@Model.designation</u>
+        }
+    </h2>
+ 
+<small>
+    Le barème est le montant théorique prévu qu'un agent peut percevoir pour une prise en charge determinée selon son grade (de decarrière ou de fonction). <br />
+    Le barème est établi dans la devise la plus forte qui est le USD (Dollar américain)
+</small>
+ 
+<div class="row">
+    <div class="col-3">
+        @foreach (var item in DATACCESS.GENG.ServiceRepartition.typePriseEnChargeLoad())
+        {
+            <div class="m-2"><a href="@Url.Action("Index","Bareme", new { id=item.id, area= "Repartition" })" class="button w-100 rounded @(Model!= null && Model.id == item.id ?"primary":"")"> @item.designation</a></div>
+        }
+    </div>
+    <div class="col-9"> 
+        <div class="row">
+            @foreach (DATACCESS.GENG.Models.grade item in DATACCESS.GENG.ServiceRepartition.gradeLoad())
+            {
+            <div class="col-3 border border-1 bd-gray p-5">
+
+                <span class="text-bold h5">@item.id</span> @item.designation
+                @{
+                    if (Model != null)
+                    {
+                        Html.RenderAction("Edit", new { grade_id = item.id, tpp_id = Model.id });
+                    }
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>

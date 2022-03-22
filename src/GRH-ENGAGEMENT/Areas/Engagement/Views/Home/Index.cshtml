@@ -1,0 +1,103 @@
+﻿@model IEnumerable<DATACCESS.GENG.Models.projet_engagement>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-3 bg-gray h-100">
+        <div>
+            <label class="text-bold">
+                <input type="checkbox" /> Tous les Types de prise en charge
+            </label>
+        </div>
+        <ul>
+            @foreach (var item in DATACCESS.GENG.ServiceRepartition.typePriseEnChargeLoad())
+            {
+                <li>
+                    <label>
+                        <input type="checkbox" /> @item.designation
+                    </label>
+                </li>
+            }
+        </ul>
+        <div class="row m-2">
+            <div class="col text-bold">
+                Etat
+            </div>
+            <div class="col">
+                 <select class="select">
+                     <option>En cours</option>
+                     <option>En cloturé</option>
+                 </select>
+            </div>
+        </div>
+        <div class=""></div>
+        <div class="row m-2">
+            <div class="col text-bold">
+                Periode
+            </div>
+                <div class="col">
+                    @*<input class="m-2" type="text" data-role="calendarpicker" data-cls-calendar="compact"
+                           data-format="%d-%m-%Y" value="@DateTime.Today.ToString("dd/M/yyyy")">*@
+                    @*<input class="m-2" type="text" data-role="calendarpicker" data-cls-calendar="compact"
+                           data-format="%d-%m-%Y" value="@DateTime.Today.ToString("dd/M/yyyy")">*@
+                </div>
+             
+          
+        </div>
+        <div class="text- m-3">
+            <button class="button outline primary w-50">Load</button>
+        </div>
+
+    </div>
+    <div class="col-9">
+        <h2>Dossiers de prise en charge</h2>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Titre
+                </th>
+                <th>
+                    Mois
+                </th>
+                <th>
+                    Date de création
+                </th>
+                <th>
+                   Date de cloture
+                </th>
+                <th>
+                    Types de prise en charge
+                </th>
+                <th>
+                    @{
+                        Html.RenderAction("Create");
+                    }
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.designation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.created_at)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.closed_at)
+                    </td>
+                    <td> </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>

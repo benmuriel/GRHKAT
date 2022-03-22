@@ -1,0 +1,39 @@
+﻿ @model IEnumerable<DATACCESS.Models.v_situation_agent_traitement>
+@{
+    Layout = null;
+}
+<div class="h500 overflow scroll">
+    <table class="table table-sm table-hover m-2 row-hover compact ">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Motif</th>
+                <th>Application</th>
+                <th>Prise en charge</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                int i = 0;
+            }
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="5" class="text-bold text-center fg-red"> Il n'y a aucun avantage lié à cette situation</td>
+                </tr>
+            }
+            @foreach (var ite in Model)
+            {
+                <tr>
+                    <td>@{i++;} @i</td>
+                    <td> <span title="@ite.nature_string"> <i class="border @(ite.nature ?"mif-plus fg-green":"mif-minus fg-red")"></i> @ite.type_traitement</span> </td>
+                    <td>@ite.type_position </td>
+                    <td>@ite.occurence_application_string / @ite.occurence_string</td>
+                    <td>@ite.include_charge_sociale_string   </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -10,19 +10,21 @@ namespace GRH_4WEB.Controllers.Api
 {
     public class StructureController : ApiController
     {
- 
-        public IEnumerable<v_structure> Get()
+
+        public IHttpActionResult Get(short? id =null)
         {
             IEnumerable<v_structure> data = new List<v_structure>();
             try
             {
+                if (id != null)
+                    return Ok(DATACCESS.ModulePlanning.StructureGet((short)id));
                 data = DATACCESS.ModulePlanning.StructurePrincipaleLoad(null);
             }
             catch (Exception e)
             {
                 BadRequest(e.ToString());
             }
-            return data;
+            return Ok(data);
         }
     }
 }

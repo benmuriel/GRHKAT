@@ -1,0 +1,23 @@
+﻿@model DATACCESS.Models.v_position_temporaire
+@{
+    Layout = null;
+}
+ 
+    <div id="terminate_@Model.id" class="dialog" data-role="dialog">
+        @using (Html.BeginForm("Terminate", "PositionTemporaire", new { id = Model.id, area = "ProfilAgent" }))
+        {
+            @Html.HiddenFor(model => model.id)
+            @Html.AntiForgeryToken()
+            <div class="dialog-title text-center">
+                <div> Requête de fin de situation  </div>
+            </div>
+            <div class="dialog-content m-5">
+              @(Model.end_requested_at != null?"Annuler la": "Confirmer le lancement d'une")   requête pour mettre fin la situation  <span class="text-bold">@Model.Describe</span>.
+                <p>La fin éffective de la situation sera sanctionné par la validation de la requète.</p>
+            </div>
+            <div class="dialog-actions text-right">
+                <button type="submit" class="button primary">  Confirmer</button>
+                <button type="button" class="button js-dialog-close">  Annuler  </button>
+            </div> 
+        } 
+    </div> 

@@ -4,19 +4,25 @@
 }
 @if (Model != null)
 {
-    if (!Model.isValidated)
+    @Model.ended_at_string 
+    if (Model.isValidated)
+    {
+        if (Model.require_end && Model.isRunning)
+        {
+            <a title="@(Model.end_requested_at != null?"Annuler la": "Lancer une")   requête de fin" class="button outline  @(Model.end_requested_at != null?"warning": "primary")  small" href=# onclick="Metro.dialog.open('#terminate_@Model.id')">
+                <i class="mif-cross"></i> 
+            </a>
+            Html.RenderPartial("Terminate");
+        }
+    }
+    else
     {
         <div class="border p-2">
-            <span class="badge badge-warning">En attente de validation</span>
-            <div class="float-righ text-decoration-none">
-                <a href="@Url.Action("Edit", "PositionTemporaire", new { id = Model.id })">Editer</a> |
-                <a class="text-danger" href=# data-toggle="modal" data-target="#delete_@Model.id">Supprimer</a> |
-             </div>
-        </div> 
-        <div id="delete_@Model.id" class="modal fade" data-backdrop="static">
-            <div class="modal-dialog">
-                @{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_DeleteSituationPartial.cshtml"); }
-            </div>
+            <a class="button outline primary small" title="Editer" href="@Url.Action("Edit", "PositionTemporaire", new { id = Model.id, agent_id = Model.agent_id })"><i class="mif-pencil"></i> </a>
+            <a class="button outline alert small" title="Supprimer" href=# onclick="Metro.dialog.open('#delete_@Model.id')"> <i class="mif-bin"></i> </a>
+            @*| <a  href=# onclick="Metro.dialog.open('#validate_@Model.id')">Valider</a>*@
         </div>
+        Html.RenderPartial("Delete");
+        //Html.RenderPartial("Validate");
     }
 } 

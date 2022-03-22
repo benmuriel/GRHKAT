@@ -7,21 +7,30 @@
 
 
 @section profil {
-    @{Html.RenderPartial("ProfilSynthese");}
+    @{Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_EtatServicePartial.cshtml");}
 }
 
 <div data-role="buttongroup" class="text-center m-2">
-    <a id="home" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id })" class="button outline primary">Carrière <span class="badge inline">3/3</span> </a>
-    <a id="identification" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page="identification" })" class="button outline primary">Identification</a>
-    <a id="position_temporaire" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="position_temporaire" })" class="button  outline  primary">Positions temporaires <span class="badge inline">0</span> </a>
-    <a id="charge_sociale" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="charge_sociale" })" class="button outline primary">Personnes à charge <span class="badge inline">0</span> </a>
-    <a id="etudes_faites" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id, page= "etudes_faites" })" class="button  outline primary">Autres <span class="badge inline">0</span> </a>
+    <a id="home" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id })" class="button outline primary"> <i class="mif-home"></i> Accuiel </a>
+    <a id="identification" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page="identification" })" class="button outline primary"><i class="mif-user"></i> Identification</a>
+    <a id="traitement" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="traitement" })" class="button  outline  primary"><i class="mif-user-check"></i> Traitements  @*<span class="badge inline">@Model.total_agent_situation</span>*@ </a>
+    <a id="loa" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="loa" })" class="button  outline  primary"><i class="mif-calendar"></i> Temps d'absence  @*<span class="badge inline">@Model.total_agent_situation</span>*@ </a>
+    <a id="charge_sociale" href="@Url.Action("Profil","Home",new { area="ProfilAgent" , id=Model.agent_id,page ="charge_sociale" })" class="button outline primary"><i class="mif-users"></i> Personnes à charge <span class="badge inline">@Model.total_charge_social</span> </a>
+    @*<a href="#" class="button outline primary"><i class="mif-user-plus"></i> Autres  </a>*@
+</div>
+<div class="dialog w-50" data-role="dialog" id="qrcodedialog">
+    <div class="dialog-title">
+        QrCode pour  <span class="m-2 text-bold" id="postype"></span>
+    </div>
+    <div class="dialog-content text-center row">
+        <div id="posdesc" class="text-bold col-6"></div>
+        <div class="col-6 text-center" id="qrcode"> </div>
+    </div>
 </div>
 
 @{
     string page = ViewBag.page;
     switch (page)
-
     {
         case "etudes_faites":
         case "charge_sociale":
@@ -30,18 +39,38 @@
         case "identification":
             Html.RenderPartial("_IdentificationPartial");
             break;
-        case "position_temporaire":
-            Html.RenderPartial("_PositionTemporaireProfilPartial");
+        case "loa":
+            Html.RenderPartial("_Loa");
+            break;
+        case "traitement":
+            Html.RenderAction("Traitement", "Home", new { id = Model.agent_id });
             break;
         default:
-            Html.RenderPartial("_ElementCarrierePartial");
+            // Html.RenderPartial("_RunningPositionTemporairePartial");
+            Html.RenderAction("Index", "PositionTemporaire", new { id = Model.agent_id });
             break;
     }
 }
 
 @section scripts{
-    <script>       
-        $('#@ViewBag.page').removeClass("outline");
+
+    @Scripts.Render("~/bundles/qrcode")
+    <script type="text/javascript">
+  $('#@ViewBag.page').removeClass("outline");
+        function createQrCode(type, data) {
+            document.getElementById('postype').innerText = type
+            document.getElementById('posdesc').innerHTML = data
+            document.getElementById('qrcode').innerHTML = ''
+            var qrcode = new QRCode(document.getElementById('qrcode'), {
+                text: data,
+                width: 128,
+                height: 128,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            Metro.dialog.open('#qrcodedialog')
+        }
     </script>
 
 }

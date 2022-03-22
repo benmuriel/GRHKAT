@@ -1,4 +1,4 @@
-﻿@model DATACCESS.ViewModels.ChargeSocialViewModel
+﻿@model GRH_4WEB.Models.ChargeSocialViewModel
 
 @{
     Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
@@ -13,7 +13,8 @@
 
     @Html.HiddenFor(model => model.agent_id)
     
-    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.charge_id)
+    @Html.HiddenFor(model => model.type_affinite_charge_sociale_id)
 
     <h4> Création - Charge sociale</h4>
     <hr />
@@ -21,6 +22,15 @@
     <div class="row">
 
         <div class="col-6">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.type_affinite_charge_sociale_id, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-9 ">
+                    <input type="text" class="bg-gray" value="@Model.type_affinite_charge_sociale" readonly />
+                    @Html.ValidationMessageFor(model => model.type_affinite_charge_sociale_id, "", new { @class = "fg-red" })
+                </div>
+            </div> 
             <div class="row">
                 <div class="col-md-3">
                     @Html.LabelFor(model => model.nom, htmlAttributes: new { @class = "control-label " })
@@ -52,40 +62,20 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-md-3">
                     @Html.LabelFor(model => model.genre, htmlAttributes: new { @class = "control-label " })
                 </div>
                 <div class="col-md-9">
-                    <select id="genre" name="genre">
-                        <option value="H">Homme</option>
-                        <option value="F">Femme</option>
-                    </select>
+                    @Html.DropDownListFor(model => model.genre, new SelectList(new List<Object> { new { value = "M", text = "Homme" }, new { value = "F", text = "Femme" } }, "value", "text"))
                     @Html.ValidationMessageFor(model => model.genre, "", new { @class = "fg-red" })
                 </div>
             </div>
 
-
-            <div class="row">
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.affinite, htmlAttributes: new { @class = "control-label " })
-                </div>
-                <div class="col-md-9">
-                    <select id="affinite" name="affinite">
-                        <option value="conjoint">Conjoint(e)</option>
-                        <option value="enfant">Enfant</option>
-                        <option value="parent">Parent</option>
-                    </select>
-                    @Html.ValidationMessageFor(model => model.affinite, "", new { @class = "fg-red" })
-                </div>
-            </div>
-
-
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     @Html.LabelFor(model => model.date_naissance, htmlAttributes: new { @class = "control-label " })
                 </div>
                 <div class="col-md-7">
@@ -93,28 +83,29 @@
                     @Html.ValidationMessageFor(model => model.date_naissance, "", new { @class = "fg-red" })
                 </div>
                 <div class="col-1">
-                    @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "date_naissance"); }
+                    @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "date_naissance"); } 
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     @Html.LabelFor(model => model.lieu_naissance, htmlAttributes: new { @class = "control-label " })
-                </div>     <div class="col-md-9">
+                </div>   
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.lieu_naissance, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.lieu_naissance, "", new { @class = "fg-red" })
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     @Html.LabelFor(model => model.occupation, htmlAttributes: new { @class = "control-label " })
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.occupation, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.occupation, "", new { @class = "fg-red" })
                 </div>
             </div>
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-3">
                     @Html.LabelFor(model => model.etat, htmlAttributes: new { @class = "control-label " })
                 </div>
@@ -125,7 +116,7 @@
                     </select>
                     @Html.ValidationMessageFor(model => model.etat, "", new { @class = "fg-red" })
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 

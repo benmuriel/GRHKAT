@@ -1,0 +1,125 @@
+﻿@model DATACCESS.GENG.Models.projet_engagement
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<a id="api-typepes-url" class="d-none" href="@Url.Action("", "api/typepriseencharge", new { area ="" })"></a>
+<a id="api-departement-url" class="d-none" href="@Url.Action("", "api/departement/", new { area ="" })"></a>
+<a id="api-eligibilite-url" class="d-none" href="@Url.Action("", "api/eligibilite", new { area ="" })"></a>
+<a id="api-engagement-url" class="d-none" href="@Url.Action("", "api/engagement", new { area ="" })"></a>
+<input id="project_id" type="hidden" value="@Model.id" />
+@Html.AntiForgeryToken()
+<div id="app">
+    <div class="row">
+        <div class="col-6">
+            <table class="table row-border">
+                <tr>
+                    <td class="text-bold">
+                        <div>Dossier No @Model.id</div>
+                        @Model.designation
+                    </td>
+                    <td class="text-small">
+                        <ul>
+                            <li>Création: @Model.created_at.ToString("dd/MM/yyyy hh:mm:ss") par : </li>
+                            <li>Clotûre: @(Model.closed_at != null? Model.closed_at.Value.ToString("dd/MM/yyyy hh:mm:ss") :"") par</li>
+                            <li>Inclus la retenu <strong> @(Model.inclu_la_retenu?"Oui":"Non")</strong></li>
+                        </ul>
+
+                    </td>
+                    <td>
+
+                        @if (Model.closed_at == null)
+                        {
+                            Html.RenderAction("Edit", new { id = Model.id });
+                            Html.RenderAction("Delete", new { id = Model.id });
+                        }  <a class="button" href="@Url.Action("Index")"> Accuiel</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-6 pt-5">
+            <div class="row">
+                <div class="col-4">   Types de prise en charge </div>
+                <div class="col-6">
+                    <select v-model="current_type_pes">
+                        <option v-for="(item,index) in selectedtypePes" v-bind:value="item">
+                            {{ index + 1}}. {{ shortString(item.designation,30) }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-1">
+                    <a href="#" v-if="null !== current_type_pes" v-on:click="removeTypePesForm()" title="Supprimer"> <i class="mif-cross"></i></a>
+                </div>
+                <div class="col-1">
+                    @Html.Partial("AddTp")
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">  Departements  </div>
+                <div class="col-8">
+                    <select v-model="current_dept">
+                        <option v-for="(item,index) in selectedDepts" v-bind:value="item">
+                            {{ index + 1}}. {{ item.designation }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-1">
+                    <a href="#" v-if="null !== current_dept" v-on:click="removeDeptForm()" title="Supprimer"> <i class="mif-cross"></i></a>
+                </div>
+                <div class="col-1">
+                    @Html.Partial("AddDep")
+                </div>
+            </div>
+        </div>
+    </div> 
+    <input type="search" class="input" v-model="filteringObject.filteringtext" v-on:keyup="filterDataFn()" placeholder="Trouver un agent" />
+    <div class="h400 overflow-auto">
+        <table class="table row-border compact">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Agent</th>
+                    <th>Grade</th>
+                    <th>Fonction</th>
+                    <th>
+                        <div v-if="current_dept !== null && current_type_pes != null">
+                            @Html.Partial("AddBeneficiaire")
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in datas ">
+                    <td>{{ index +1 }}</td>
+                    <td style="max-width:200px;">
+                        <strong class="m-1"> {{ item.beneficiaire.nom_complet }}</strong>
+                    </td>
+                    <td>   {{  item.beneficiaire.grade_carriere}}  </td>
+                    <td>   {{ shortString(item.beneficiaire.fonction,60) }}   </td>
+
+                    @*<td v-if=" current_type_pes.allow_charge_sociale">
+                            {{ item.charge_Sociale ? item.charge_Sociale.nom_complet: '' }}
+                        </td>
+                        <td v-if="current_type_pes !== null && current_type_pes.allow_charge_sociale">
+                            <a class="button primary rounded small outline"><i class="mif-plus"></i></a>
+                        </td>
+
+                        <td v-if="current_type_pes !== null && current_type_pes.allow_funding">
+                        <td>
+                            <a class="button primary rounded small outline"><i class="mif-pencil"></i></a>
+                        </td>*@
+                    <td>
+                        <a v-on:click="removeEngagementForm(item)" class="button alert rounded small outline"><i class="mif-cross"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/engagement.js"></script>
+}

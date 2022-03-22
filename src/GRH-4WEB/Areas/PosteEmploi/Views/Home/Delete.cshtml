@@ -8,11 +8,11 @@
           <input type="hidden" v-bind:value="poste.id" />
             <h5 class="dialog-title"> Suppression </h5> 
             <div class="dialog-content text-center">
-                Supprimer le poste d'emploi <strong> {{ poste.structure }} </strong>
+                Supprimer le poste d'emploi <strong> {{ poste.fonction }} </strong>
                 <p class="text-danger">(Action irréversible)</p>
             </div>
             <div class="dialog-actions text-right">
-                <button type="button" class="button outline alert js-dialog-close">  Supprimer</button>
+                <button type="button" class="button outline alert js-dialog-close" v-on:click="deletePoste">  Supprimer</button>
                 <button type="button" class="js-dialog-close button">  Annuler  </button>
             </div>        
     </div>

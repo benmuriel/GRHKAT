@@ -1,0 +1,182 @@
+﻿@model  GRH_4WEB.Models.SitualtionViewModel
+@{
+    Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
+    ViewBag.Title = "Positions Temporaires";
+}
+@section profil {
+    @{Html.RenderAction("ProfilSynthese", "Home", new { id = Model.agent_id });}
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                @(Model.situation_id == 0 ? "Nouvelle situation" : "Edition") - (@Model.type.designation)
+                <span class=" float-right">
+                    Durée maximale :<span class="text-bold mb-1"> @Model.type.duree_string   </span>
+                </span>
+            </h5>
+        </div>
+        <div class="card-content p-2">
+            @using (Html.BeginForm("Save", "PositionTemporaire"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.situation_id)
+                @Html.HiddenFor(model => model.agent_id)
+                @Html.HiddenFor(model => model.type_position_id)
+                <div class="row">
+                    <div class="col-12">
+                        @if (Model.type.is_computed_value)
+                        {
+                            <div class="form-group row">
+                                <label for="poste_id" class="col-form-label col-md-3">Déscription <span>(*)</span></label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.value_data, new { htmlAttributes = new { @class = "input bg-gray text-bold", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        }
+                        @if (Model.type.is_motif_value)
+                        {
+                            <div class="form-group row">
+                                <label for="poste_id" class="col-form-label col-md-3">Déscription <span>(*)</span></label>
+                                <div class="col-md-6">
+                                    <input class="input bg-gray text-bold" value="@Model.motif_type_position" readonly />
+                                    @Html.HiddenFor(model => model.value_data)
+                                </div>
+                            </div>
+                        }
+                        @if (Model.type.is_entity_value)
+                        {
+                            <div class="form-group row">
+                                <label for="poste_id" class="col-form-label col-md-3">Déscription <span>(*)</span></label>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.value_data, new SelectList(DATACCESS.ModulePlanning.SituationAgentEntityValueListItemLoad(Model.type.value_origine_entity_type), "id", "description"))
+                                </div>
+                            </div>
+                        }
+                        @if (Model.type.is_custom_value)
+                        {
+                            <div class="form-group row">
+                                <label for="poste_id" class="col-form-label col-md-3">Déscription <span>(*)</span></label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.value_data, new { htmlAttributes = new { @class = "input" } })
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <div class="fg-red">
+                                    @Html.ValidationMessageFor(model => model.value_data)
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.type.require_planning)
+                        {
+                            <div class="form-group row">
+                                <label for="poste_id" class="col-form-label col-md-3">Plannification <span>(*)</span></label>
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(model => model.planning_project_id, new SelectList(DATACCESS.ModuleAgent.PositionTemporairePlanningProjectAvailableForAgentLoad(Model.type_position_id, Model.agent_id), "id", "designation"))
+                                </div>
+                            </div>
+                        }
+                        @if (Model.type.require_realisation_lieu)
+                        {
+                            <div class="form-group row">
+                                <label for="poste_id" class="col-form-label col-md-3">Structure de réalisation <span>(*)</span></label>
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(model => model.lieu_realisation_position_id, new SelectList(DATACCESS.ModulePlanning.StructureRealisation(Model.type_position_id), "id", "designation"))
+                                </div>
+                            </div>
+                        }
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3">Durée de la position<span>(*)</span></label>
+                            <div class="col-md-4">
+                                <input type="range" value="@Model.duree" id="duree" name="duree" min="@Model.duree_min" max="@Model.duree_max"
+                                       oninput="lblduree.value=duree.value" />
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <output class="text-bold" id="lblduree">@Model.duree</output> <span>jour(s)</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3">Date de debut <span>(*)</span></label>
+                            <div class="col-2">
+                                @Html.EditorFor(model => model.started_at, new { htmlAttributes = new { @readonly = "readonly" } })
+                                <div class="fg-red">
+                                    @Html.ValidationMessageFor(model => model.started_at)
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "started_at"); }
+                            </div>
+                            <label class="col-form-label col-md-3 text-center text-bold">La date de fin sera calculée automatiquement</label>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3">Référence <span>(*)</span></label>
+                            <div class="col-6">
+                                @Html.TextAreaFor(model => model.start_reference)
+                                <div class="fg-red">
+                                    @Html.ValidationMessageFor(model => model.start_reference)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <label class="col-form-label col-md-3">Autres details (Optionnel)</label>
+                            <div class="col-6">
+                                @Html.TextAreaFor(model => model.details)
+                                <div class="fg-red">
+                                    @Html.ValidationMessageFor(model => model.details)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-7 fg-red">
+                                @Html.ValidationSummary(false)
+                            </div>
+                            <div class="col-5 text-right pr-4">
+                                <button type="submit" class="button outline success">  Enregister</button>
+                                <a href="@Url.Action("Profil","Home", new { area= "ProfilAgent", id = Model.agent_id , page = "position_temporaire"   })" class="button">  Annuler  </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $('#duree').click(function () {
+            var end_date = $('#ended_at');
+            var val = $(this).val();
+            var startdat = $('#started_at').val();
+            if (startdat === '') {
+                end_date.val("No start date !");
+                end_date.removeClass('fg-green')
+                end_date.addClass('fg-red')
+                return;
+            }
+            if (val == 0) {
+                end_date.val("durée indéterminée");
+                end_date.removeClass('fg-green')
+                end_date.addClass('fg-red')
+            }
+            else {
+                var dt = startdat.split('/');
+                var date = new Date(dt[2], dt[1] - 1, dt[0]);
+                date.setDate((date.getDate() + (val * 1) + 1))
+                end_date.val(formatDate(date));
+                end_date.removeClass('fg-red')
+                end_date.addClass('fg-green')
+            }
+        });
+
+
+    </script>
+}
+

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DATACCESS.GENG.Models.type_prise_en_charge>
+
+
+    <div class="container">
+        <table class="table stiped row-border cell-border">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.designation)
+                </th>
+                <th>
+                    Instance d'engagement
+                </th>
+            <th>
+                    Instance d'execution
+                </th>
+            <th>
+                    Instance de liquidation
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-bold">
+                        @Html.DisplayFor(modelItem => item.designation)
+                    </td>
+                    <td>     @item.instance_engagement    </td>
+                    <td>     @item.instance_execution    </td>
+                    <td>     @item.instance_liquidation    </td>
+                    <td>
+                       @{ 
+                           Html.RenderAction("Edit", new { id = item.id });
+                       }                        
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div> 
+

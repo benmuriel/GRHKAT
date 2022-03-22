@@ -5,39 +5,46 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - GRH4HKAT</title>
+    <link href="~/Content/metro/css/metro-all.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
 </head>
 <body>
+    @*dev*@
     <div data-role="appbar" data-expand-point="md" class="bg-cyan fg-white">
+        @*prod*@
+        @* <div data-role="appbar" data-expand-point="md" class="bg-dark fg-white">*@
         <a href="@Url.Action("Index", "Home", new { area=""})" class="brand no-hover">
             <span class="text-it">
-                GRH-HK Gestion des Effectifs
+                <strong>GRH-HKAT </strong> <span class="p-2 border bd-white">GESTIONS DES EFFECTIFS</span>
             </span>
         </a>
         <ul class="app-bar-menu">
-            <li id="mod_profil_agent">
-                <a href="@Url.Action("Index", "Home", new { area="ProfilAgent" })">Profils Agents</a>
+            <li id="mod_profil">
+                <a href=#>Profil Agent</a>
+            </li>
+            <li id="mod_recrutement">
+                <a href="@Url.Action("Index", "Recrutement", new { area="Situation" })">Recrutement</a>
+            </li>
             <li>
-            <li id="mod_posteemploi">
-                <a href="@Url.Action("Index", "Home", new { area="PosteEmploi" })">Postes &amp; emplois</a>
+            <li id="mod_admission">
+                <a href="@Url.Action("Index", "Admission", new { area="Situation" })">Admission</a>
             </li>
-            <li id="mod_position_temporaire">
-                <a href="@Url.Action("Index", "Home", new { area="PositionTemporaire",id =0 }) ">Positions Temporaires</a>
+            <li id="mod_prestation">
+                <a href="@Url.Action("Index", "Home", new { area="ProfilAgent" })">Prestation</a>
             </li>
-            <li id="mod_validation">
-                <a href="@Url.Action("Index", "Home", new { area="Validation" })">Validations</a>
+            <li>
+                <a id="mod_pt" href="#" class="dropdown-toggle">Application</a>
+                <ul class="d-menu" data-role="dropdown">
+                    <li><a href="@Url.Action("Index", "Home", new { area="PosteEmploi" })">Postes &amp; emplois </a></li>
+                    <li><a href="@Url.Action("Index", "Home", new { area="PositionTemporaire" })">Validations des situations</a></li>
+                    <li><a href="@Url.Action("Index", "Plannification", new { area="PositionTemporaire" })">Plannifications des situations</a></li>
+                    @*<li class="divider bg-lightGray"></li>*@
+                </ul>
             </li>
-
         </ul>
     </div>
 
-    @*<form class="form-inline">
-            <input class="form-control vw-100 mr-sm-2" type="search" placeholder="Rechercher un agent" aria-label="Trouver un agent" />
-            <button class="btn btn-outline-success">Ok</button>
-        </form>*@
-
-
-    <div class=" pt-3">
+    <div>
         @RenderBody()
     </div>
 
@@ -46,14 +53,14 @@
             <p class="text-center">&copy; @DateTime.Now.Year - Division de l'Informatique</p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/metro")
 
 
     @if (TempData["Msg"] != null)
     {
         <script>
-        Metro.toast.create('@TempData["Msg"]',null,10000,'bg-@TempData["MsgType"]') 
+        Metro.toast.create('@TempData["Msg"]',null,1000000,'bg-@TempData["MsgType"]')
         </script>
     }
 

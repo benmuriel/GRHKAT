@@ -1,32 +1,29 @@
-﻿@model DATACCESS.Models.v_charge_sociale
+﻿
+@model GRH_4WEB.Models.ChargeSocialViewModel
 
 @{
-    Layout = "~/Areas/ProfilAgent/Views/Shared/_ProfilAgentLayout.cshtml";
+    Layout = null;
 }
-@section profil {
-    @{ Html.RenderAction("ProfilSynthese", "Home", new { id = Model.agent_id });}
-}
-
-@using (Html.BeginForm("Delete", "chargeSociale", new { id = Model.id }))
-{
-    @Html.HiddenFor(model => model.id)
-    @Html.HiddenFor(model => model.agent_id)
-    <div class="dialog" >
-        <div class="dialog-title">
-            Suppression
-        </div>
-        <div class="dialog-content">
-            <h4>Suprimer cette prise en charge ? </h4>
-            <div> @Model.nom_complet</div>
-            <div> @Model.affinite</div>
-            <div> @Model.genre</div>
-        </div>
-
-        @Html.AntiForgeryToken()
-        <div class="dialog-actions text-right">
-            <button type="submit" class="button alert"> Supprimer</button>
-            <a class="js-dialog-close button">Annuler</a>
-        </div>
-
+ 
+    <div id="delete_@Model.charge_id" class="dialog" data-role="dialog">
+        @using (Html.BeginForm("Delete", "ChargeSociale", FormMethod.Post, new { area = "ProfilAgent" }))
+        {  
+            <div class="dialog-title text-center">
+         Suppression
+            </div> 
+            <div class="dialog-content">
+                @Html.HiddenFor(model => model.charge_id)
+                @Html.HiddenFor(model => model.agent_id)
+                @Html.AntiForgeryToken()
+                <div> Suppression la prise en charge sociale <span class="text-bold"> @Model.nom </span> ?</div>
+            </div>
+            <div class="dialog-actions text-right">
+                <button type="submit" class="button alert">  Supprimer</button>
+                <button type="button" class="button js-dialog-close">  Annuler  </button>
+            </div>
+        }
     </div>
-}
+ 
+
+
+

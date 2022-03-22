@@ -27,44 +27,32 @@ namespace GRH_4WEB.Controllers.Api
         }
 
         [HttpPost]
-        public IHttpActionResult Save(PosteViewModel model)
-        { 
+        public IHttpActionResult Save(v_poste model)
+        {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var item = DATACCESS.ModulePlanning.PosteSave(new v_poste
-                    {
-                        id = model.id,
-                        structure_id = model.structure_id,
-                        fonction_id = model.fonction_id,
-                        designation = model.designation
-                    });
-                    return Ok(item);  
-                }                
+                DATACCESS.ModulePlanning.PosteSave(model);
+                return Ok(DATACCESS.ModulePlanning.StructureGet(model.structure_id));
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                throw (e);
             }
-            return BadRequest("Echec de validation du formulaire");
         }
 
-        public IHttpActionResult Delete(v_poste entity)
+        [HttpDelete]
+        public IHttpActionResult Delete(long id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    DATACCESS.ModulePlanning.PosteDelete(entity);
-                }
-                catch (Exception e)
-                {
-                  return  BadRequest(e.Message);
-                }
-                return Ok("Operation éffectuée avec succès");
+                v_poste entity = DATACCESS.ModulePlanning.PosteGet(id);
+                DATACCESS.ModulePlanning.PosteDelete(entity);
             }
-          return  BadRequest("Echec de validation du formulaire");
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            return Ok("Operation éffectuée avec succès");
         }
     }
 }

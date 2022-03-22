@@ -1,46 +1,45 @@
 ﻿@{
     Layout = null;
 }
-<form class="form-inline m-2 w-100">
-    <div class="form-group col-md-12">
-        <input type="search" class="form-control col-md-12 searchField" data-found="#postcount" data-target="#posttable" placeholder="Trouver un poste ou un agent" />
-    </div>
-</form>
-
+ 
 <div class="h400 overflow-auto">
-    <table id="posttable" class="table row-border row-hover">
+    <table id="posttable" class="table row-border row-hover compact">
         <thead>
             <tr>
                 <th># </th>
                 <th>Poste </th>
-                <th>Occupant </th>
+                <th>Occupant </th>               
+                <th>Motif d'occupation </th> 
+                <th class="text-center">
+                    <a v-if="state == 'vacant'" title="Ajouter un nouveau poste" v-on:click="editPoste()" class="button outline primary m-1s"><i class="mif-user-plus"></i> Nouveau poste</a>
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr class="searchable" v-for="(item,index) in datas" data-content="item.designation+item.occupant+item.matricule">
-                <td> <span v-bind:class="{ 'bd-white bg-green rounded p-1 fg-white': item.agent_id != null }">{{ index+1 }} </span> </td>
-                <td class="">
-                    <span class="">{{item.poste_order_number}} #</span>{{item.fonction}}
-                    <div class="text-muted"> <small>{{ item.TypeFonction }}</small></div>
+            <tr class="searchable" v-for="(item,index) in datas" v-bind:data-content="item.fonction+item.occupant+item.motif_occupation">
+                <td> <span class="p-1" v-bind:class="[item.agent_id != null ? 'bd-green bg-green ':'bd-orange bg-orange' ]">{{ index+1 }} </span> </td>
+                <td style="max-width:250px;" class="text-bold">
+                    {{item.fonction}}
+                    <div class="text-small"> <small>{{ item.TypeFonction }} {{ item.grade_fonction ? '| '+ item.grade_fonction :'' }}</small></div>
                 </td>
                 <td>
-                    <div class="text-bold"> <small>Poste {{ item.etat_poste }}</small></div>
+                    @*<div class="text-bold"> <small>Poste {{ item.etat_poste }}</small></div>*@
                     {{item.occupant}}
-                    <div v-if="item.agent_id != null">
+                    @*<div v-if="item.agent_id != null">
                         <small><span class="font-weight-bold">Matricule: </span>{{ item.matricule }} </small><br />
                         <small><span class="font-weight-bold">Grade: </span> {{ item.grade_carriere }} </small>
-                    </div>
+                    </div>*@
                 </td>
-                <td class="text-center">
-                    <div class="m-2">
-                        <a class="button outline primary" href="#" v-on:click="editPoste(item)">
-                            <span class="mif-pencil"></span>
-                        </a>
-                        <a class="button outline alert" href="#" v-on:click="deletePoste(item)">
-                            <span class="mif-bin"></span>
-                        </a>
-                    </div>
-                    <a href="#" v-if="item.agent_id != null" class="button success" v-on:click="voirProfilAgent(item.agent_id)">Voir le profil</a>
+                <td>{{ item.motif_occupation }} <span v-if="item.agent_id">({{ item.state_string }})</span> </td>
+                <td style="min-width:100px;" class="text-center">
+                    <a title="Modifier le poste" class="button outline primary small m-1" href="#" v-on:click="editPoste(item)">
+                        <i class="mif-pencil">  </i>
+                    </a>
+                    <a v-if="item.agent_id == null" title="Supprimer le poste" class="button outline alert small m-1" href="#" v-on:click="deletePosteForm(item)">
+                        <i class="mif-bin"></i> 
+                    </a>      
+                    <a title="Voir le profil de l'agent occupant le poste" href="#" v-if="item.agent_id != null" class="button small success outline" v-on:click="voirProfilAgent(item.agent_id)"><i class="mif-user"></i></a>
+
                 </td>
             </tr>
         </tbody>

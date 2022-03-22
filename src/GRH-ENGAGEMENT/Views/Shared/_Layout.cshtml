@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - GRH4HKAT</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div data-role="appbar" data-expand-point="md" class="bg-green fg-white">
+        <a href="@Url.Action("Index", "Home", new { area=""})" class="brand no-hover">
+            <span class="text-it">
+                GRH-HK Engagements des prises en charges
+            </span>
+        </a>
+        <ul class="app-bar-menu">
+            <li>
+                <a id="mod_pt" href="#" class="dropdown-toggle">Préparatifs</a>
+                <ul class="d-menu" data-role="dropdown">
+                    <li><a href="@Url.Action("Index", "Beneficiaire", new { area="Repartition" })">Béneficiaires</a></li>
+                    <li><a href="@Url.Action("Index", "TypePriseEnCharge", new { area="Repartition" })">Types de prises en charge</a></li>
+                    <li><a href="@Url.Action("Index", "Bareme", new { area="Repartition" })">Barèmes des prises en chages</a></li>
+                    <li><a href="@Url.Action("Index", "Taux", new { area="Repartition" })">Taux</a></li>
+                </ul>
+            </li>
+            <li id="mod_eng">
+                <a href="@Url.Action("Index", "Home", new { area="Engagement" })">Engagements</a>
+            <li>  
+                <li id="mod_profil_agent">
+                <a href="@Url.Action("Index", "Home", new { area="Engagement" })">Engagements</a>
+            <li>
+        </ul>
+    </div>   
+    <div class="pt-1">
+        @RenderBody()
+    </div>
+    <div class="container pos-fixed fixed-bottom">
+        <footer>
+            <p class="text-center">&copy; @DateTime.Now.Year - Division de l'Informatique</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/metro")
+
+
+    @if (TempData["Msg"] != null)
+    {
+        <script>
+        Metro.toast.create('@TempData["Msg"]',null,1000000,'bg-@TempData["MsgType"]') 
+        </script>
+    }
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

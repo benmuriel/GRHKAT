@@ -1,0 +1,23 @@
+﻿ 
+
+    <button title="Ajouter un type de prise en charge" class=" primary button outline small rounded" v-on:click="addTypePesForm()">
+        <i class="mif-plus"></i>  
+    </button>
+
+    <div class="dialog w-50" data-role="dialog" id="addtp">
+        <div class="dialog-title">Ajouter un type de prise en charge</div>
+        <div class="dialog-content h300  h400 overflow-auto"> 
+                <table class="table">
+                    <tbody>
+                        <tr v-for="item in type_pes">
+                            <td>{{ item.designation }}</td>
+                            <td><a class="button primary outline small" v-on:click="submitAddTypePes(item)"><i class="mif-plus"></i> Ajouter</a> </td>
+                        </tr>
+                    </tbody>
+                </table> 
+        </div>
+        <div class="dialog-actions text-right"> 
+            <button type="button" class="button outline primary js-dialog-close">Terminer </button>
+        </div>
+
+    </div>

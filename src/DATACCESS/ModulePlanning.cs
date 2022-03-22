@@ -15,6 +15,44 @@ namespace DATACCESS
         private static GrhkatModel DB = new GrhkatModel();
 
 
+        public static List<SituationAgentValueListItemViewModel> SituationAgentEntityValueListItemLoad(string value_origine_entity_type)
+        {
+            List<SituationAgentValueListItemViewModel> list = new List<SituationAgentValueListItemViewModel>();
+            switch (value_origine_entity_type)
+            {
+                case "poste":
+                    PosteVacantLoad(null).ForEach(item => list.Add(new SituationAgentValueListItemViewModel
+                    {
+                        description = item.ToString(),
+                        id = item.id.ToString()
+                    }));
+                    break;
+                case "grade":
+                    GradeLoad().ForEach(item => list.Add(new SituationAgentValueListItemViewModel
+                    {
+                        description = item.ToString(),
+                        id = item.id.ToString()
+                    }));
+                    break;
+            }
+            return list;
+        }
+
+        public static List<v_planning_project> PlanningPositionTemporaireLoad(int? type_position_id = null, short? str_id = 0, string state= "running")
+        {          
+            using (GrhkatModel db = new GrhkatModel())
+                return db.v_planning_project.Where(e =>  
+                 (((str_id != null && e.structure_id == str_id) || (str_id == null) )
+                  && ((type_position_id != null && e.type_position_id == type_position_id) || (type_position_id == null)))
+                  && e.planning_state == state
+               ).OrderByDescending(e => e.validity).ToList();
+            //using (GrhkatModel db = new GrhkatModel())
+               // return db.v_planning_project.Where(e =>  
+               //  (( str_id != null && e.structure_id == (short)str_id) || str_id == null)
+               //   &&((type_position_id != null && e.type_position_id == (int)type_position_id) || type_position_id == null)
+               //).OrderByDescending(e => e.validity).ToList();
+        }
+
         public static List<v_structure> StructurePrincipaleLoad(string text)
         {
             try
@@ -30,37 +68,36 @@ namespace DATACCESS
             };
         }
 
-        public static List<ServicePosteVacantViewModel> GetPosteVacantServices()
+        public static type_affinite_charge_sociale TypeAffiniteChargeSocialGet(int id)
         {
-            try
-            {
-                var result = DB.Database.SqlQuery<ServicePosteVacantViewModel>(" select distinct structure_id , structure  from v_poste_vacant order by structure ");
-                return result.ToList();
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            };
+            using (GrhkatModel DB = new GrhkatModel())
+                return DB.type_affinite_charge_sociale.Find(id);
+        }
+        public static List<motif_type_position> TypesPositionTemporaireMotifLoad(long id)
+        {
+            using (GrhkatModel DB = new GrhkatModel())
+                return DB.motif_type_position.Where(e => e.type_position_id == id).ToList();
         }
 
-        public static type_position TypesPositionTemporaireGet(int id)
+        public static List<lieu_realisation_type_position> StructureRealisation(long id)
+        {
+            using (GrhkatModel DB = new GrhkatModel())
+                return DB.lieu_realisation_type_position.Where(e => e.type_position_id == id).ToList();
+        }
+
+        public static motif_type_position TypesPositionTemporaireMotifGet(int motifid)
+        {
+            using (GrhkatModel DB = new GrhkatModel())
+                return DB.motif_type_position.Find(motifid);
+        }
+
+        public static type_position TypesPositionTemporaireGet(long id)
         {
             try
             {
                 var result = DB.Database.SqlQuery<type_position>(" select * from type_position where id = @id ",
                     new SqlParameter { ParameterName = "@id", Value = id });
                 return result.SingleOrDefault();
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            };
-        }
-        public static List<institution_detachement> InstitutionDetachementLoad()
-        {
-            try
-            {
-                return DB.institution_detachement.OrderBy(e => e.designation).ToList();
             }
             catch (Exception e)
             {
@@ -105,7 +142,6 @@ namespace DATACCESS
                 DB.Database.ExecuteSqlCommand("exec sp_moduleplanning_poste_delete @id",
                 new SqlParameter("@id", entity.id)
                 );
-                DAO.SuccessMessage();
             }
             catch (Exception e)
             {
@@ -134,12 +170,16 @@ namespace DATACCESS
             };
         }
 
-        public static List<type_position> TypesPositionTemporaire(string categorie = null)
+        public static List<type_position> TypesPositionTemporaire(Boolean? require_planning = null, string categorie = null)
         {
             try
             {
-                var result = DB.Database.SqlQuery<type_position>(" select * from type_position  where (@cat is not null and categorie = @cat) or (@cat is null) order by designation",
-                          new SqlParameter { ParameterName = "@cat", Value = categorie, DbType = System.Data.DbType.String });
+                var result = DB.Database.SqlQuery<type_position>(" select * from type_position  where " +
+                    "((@cat is not null and categorie = @cat) or (@cat is null)) and" +
+                    "((@reqp is not null and require_planning = @reqp) or (@reqp is null)) " +
+                    "order by is_required desc, value_origine_entity_type desc,designation",
+                          new SqlParameter { ParameterName = "@reqp", Value = require_planning ?? SqlBoolean.Null, DbType = System.Data.DbType.Boolean },
+                          new SqlParameter { ParameterName = "@cat", Value = categorie ?? SqlString.Null, DbType = System.Data.DbType.String });
                 return result.ToList();
             }
             catch (Exception e)
@@ -147,26 +187,7 @@ namespace DATACCESS
                 throw (e);
             };
         }
-        public static void StructureSave(v_structure entity)
-        {
-            try
-            {
-                DB.Database.ExecuteSqlCommand("exec sp_moduleplanning_structure_save @id, @parent_id, @type_structure_id, " +
-                    "@poste_id ,@designation ,@is_affectation ,@lvl ",
-                  new SqlParameter("@id", entity.id),
-                  new SqlParameter("@parent_id", entity.parent_id ?? SqlInt64.Null),
-                  new SqlParameter("@type_structure_id", entity.type_structure_id ?? SqlInt64.Null),
-                  new SqlParameter("@poste_id", entity.poste_id ?? SqlInt64.Null),
-                  new SqlParameter("@designation", entity.designation),
-                  new SqlParameter("@is_affectation", entity.is_affectation),
-                  new SqlParameter("@lvl", entity.lvl));
-                DAO.SuccessMessage();
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-        }
+
         public static List<v_poste_planning> PostePlanningLoad(short? str_id, string filter)
         {
             long? id = str_id;
@@ -189,70 +210,20 @@ namespace DATACCESS
         }
 
 
-        public static void FonctionDelete(fonction entity)
-        {
-            try
-            {
-                DB.Database.ExecuteSqlCommand("exec sp_moduleplanning_fonction_delete @id",
-                new SqlParameter("@id", entity.id));
-                DAO.SuccessMessage();
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-        }
         public static List<categorie_type_position> CategorieTypePosition()
         {
             return DB.categorie_type_position.Include("type_positions").OrderBy(e => e.description).ToList();
         }
 
-        public static void FonctionSave(fonction entity)
-        {
-            try
-            {
-                DB.Database.ExecuteSqlCommand("exec sp_moduleplanning_fonction_save @id, @designation , @is_politic",
-                new SqlParameter("@id", entity.id),
-                new SqlParameter("@designation", entity.designation),
-                new SqlParameter("@is_politic", entity.is_politic));
-                DAO.SuccessMessage();
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-        }
-        public static List<fonction> FonctionLoad(string text)
-        {
-            try
-            {
-                var result = DB.Database.SqlQuery<fonction>("exec dbo.sp_moduleplanning_fonction_load @filter",
-                   new SqlParameter { ParameterName = "@filter", Value = text ?? SqlString.Null, DbType = System.Data.DbType.String }
-                   );
-
-                return result.ToList();
-            }
-            catch (Exception e)
-            {
-                DAO.ErrorMessage(e);
-                return null;
-            };
-
-        }
-
-        public static List<v_poste_vacant> PosteVacantLoad(short? str_id, string filter)
+     
+        public static List<v_poste> PosteVacantLoad(short? str_id)
         {
             long? id = str_id;
             try
             {
-                var result = DB.Database.SqlQuery<v_poste_vacant>("exec sp_moduleplanning_poste_load_vacant @str_id, @filter",
-                         new SqlParameter { ParameterName = "@str_id", Value = id ?? SqlInt64.Null },
-          new SqlParameter { ParameterName = "@filter", Value = filter ?? SqlString.Null }
+                using (GrhkatModel db = new GrhkatModel())
+                    return db.v_poste.Where(e => e.etat_poste == "vacant").OrderBy(e => e.fonction).ToList();
 
-
-             );
-
-                return result.ToList();
             }
 
             catch (Exception e)
@@ -281,12 +252,9 @@ namespace DATACCESS
         {
             try
             {
-                var result = DB.Database.SqlQuery<v_poste>("exec dbo.sp_moduleplanning_poste_load_by_str  @str_id= @_str_id, @filter = @_filter, @state = @_state",
-                 new SqlParameter { ParameterName = "@_str_id", Value = id, DbType = System.Data.DbType.Int64 },
-                 new SqlParameter { ParameterName = "@_filter", Value = filter ?? SqlString.Null, DbType = System.Data.DbType.String },
-                 new SqlParameter { ParameterName = "@_state", Value = state ?? SqlString.Null, DbType = System.Data.DbType.String }
-                );
-                return result.ToList();
+                using (GrhkatModel db = new GrhkatModel())
+                    return db.v_poste.Where(e => e.structure_id == id && (state != null ? e.etat_poste == state : state == null))
+                        .OrderByDescending(e => e.agent_id).ToList();
             }
             catch (Exception e)
             {
@@ -298,11 +266,9 @@ namespace DATACCESS
         {
             try
             {
-                var result = DB.Database.SqlQuery<v_poste>("exec dbo.sp_moduleplanning_poste_get @id",
-                 new SqlParameter { ParameterName = "@id", Value = id, DbType = System.Data.DbType.Int64 }
-                 );
 
-                return result.SingleOrDefault();
+                using (GrhkatModel db = new GrhkatModel())
+                    return db.v_poste.Find(id);
             }
             catch (Exception e)
             {
@@ -310,18 +276,24 @@ namespace DATACCESS
                 return null;
             };
         }
-        public static v_poste PosteSave(v_poste poste)
+        public static void PosteSave(v_poste poste)
         {
 
             try
             {
-                var result = DB.Database.SqlQuery<v_poste>("exec sp_moduleplanning_poste_save @id, @fonction_id, @designation , @str_id",
-                new SqlParameter("@id", poste.id),
-                new SqlParameter("@fonction_id", poste.fonction_id),
-                new SqlParameter("@designation", poste.designation ?? SqlString.Null),
-                new SqlParameter("@str_id", poste.structure_id)
-                );              
-                return result.SingleOrDefault();
+                using (GrhkatModel db = new GrhkatModel())
+                {
+                    poste po = db.poste.FirstOrDefault(e => e.id == poste.id);
+                    if (po == null)
+                    {
+                        po = new poste { structure_id = poste.structure_id, created_at = DateTime.Now };
+                        db.poste.Add(po);
+                    }
+                    po.grade_id = poste.grade_fonction;
+                    po.fonction = poste.fonction.ToUpper().Trim(); 
+                    po.is_politic = poste.is_politic;
+                    db.SaveChanges(); 
+                } 
             }
             catch (Exception e)
             {
@@ -364,7 +336,10 @@ namespace DATACCESS
             };
         }
 
-
+        public static List<type_affinite_charge_sociale> TypeAffiniteChargeSocialLoad()
+        {
+            return DB.type_affinite_charge_sociale.ToList();
+        }
 
     }
 }

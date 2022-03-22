@@ -1,0 +1,76 @@
+﻿@model DATACCESS.Models.planning_project
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<div class="row flex-justify-center">
+    <div class="col-6">
+        @using (Html.BeginForm("Create","Plannification"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.id)
+        
+            <div class="form-horizontal">
+            <h4>Project de plannification</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row m-1">
+                @Html.LabelFor(model => model.type_position_id, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.type_position_id, new SelectList(DATACCESS.ModulePlanning.TypesPositionTemporaire(true), "id", "designation"), new { @class = "select" })
+                    @Html.ValidationMessageFor(model => model.type_position_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row m-1">
+                @Html.LabelFor(model => model.selected_structures, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <select id="selected_structures" name="selected_structures" data-val="true" data-val-required="Une liste de structures concernnées par la plannification est requise" data-role="select" multiple="multiple">
+                        @foreach (var item in DATACCESS.ModulePlanning.StructurePrincipaleLoad(null))
+                        {
+                            <option  value="@item.id" @(Model.selected_structures.Contains(item.id)?"selected":"")>@item.structure</option>
+                        }
+                    </select>
+                    @*@Html.DropDownListFor(model => model.selected_structures, new SelectList(DATACCESS.ModulePlanning.StructurePrincipaleLoad(null), "id", "designation",Model.selected_structures), new { @multiple = "multiple", @data_role = "select" })*@
+                    @Html.ValidationMessageFor(model => model.selected_structures, "", new { @class = "text-red" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="mb-3">Période de validité  (*) <br /> (<small>Période durant laquelle une  position d'un agent peût nouvellement être associée à cette plannification</small>)</div>
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(model => model.started_at, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-4">
+                        @Html.EditorFor(model => model.started_at, new { htmlAttributes = new { @readonly = "readonly" } })
+                        @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "started_at"); }
+                        @Html.ValidationMessageFor(model => model.started_at, "", new { @class = "text-red" })
+                    </div>
+                    <div class="col-2 text-right ">
+                        @Html.LabelFor(model => model.ended_at, htmlAttributes: new { @class = "col-md-2" })
+                    </div>
+                    <div class="col-4">
+                        @Html.EditorFor(model => model.ended_at, new { htmlAttributes = new { @readonly = "readonly" } })
+                        @{ Html.RenderPartial("~/Views/Shared/_datepickerUnlimited.cshtml", "ended_at"); }
+                        @Html.ValidationMessageFor(model => model.ended_at, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row m-1">
+                @Html.LabelFor(model => model.details, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.details, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.details, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="text-right">
+                <input type="submit" value="Enregistrer" class="button primary" />
+                <a class="button" href="@(Model.id == 0?  Url.Action("Index","Plannification"):  Url.Action("Detail","Plannification", new {id= Model.id }))"> Annuler</a>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>

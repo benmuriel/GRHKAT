@@ -1,0 +1,21 @@
+﻿@model DATACCESS.Models.planning_project
+@using (Html.BeginForm("Lock", "Plannification"))
+{
+    <div class="modal-content">
+        <div class="dialog-title">
+            <button type="button" class="button js-dialog-close float-right">
+                <span aria-hidden="true"> &times;</span>
+            </button>
+            <h5 class="modal-title"> Verouiller la plannification </h5>
+        </div>
+        <div class="dialog-content"> 
+            @Html.HiddenFor(model => model.id) 
+        </div>
+        <div class="dialog-actions">
+            <div class="float-right p-3">
+                <button type="submit" class="button outline success">  Verrouiller</button>
+                <button type="button" class="button js-dialog-close">  Annuler      </button>
+            </div>
+        </div>
+    </div>
+}

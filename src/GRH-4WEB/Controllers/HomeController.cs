@@ -12,6 +12,18 @@ namespace GRH_4WEB.Controllers
         {
             return View();
         }
+        public ActionResult Recrutement()
+        {
+            return View();
+        }
+        public ActionResult Admission()
+        {
+            return View();
+        }
+        public ActionResult Prestation()
+        {
+            return View();
+        }
 
         public ActionResult About()
         {

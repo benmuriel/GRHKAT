@@ -1,0 +1,47 @@
+﻿<div class="dialog w-75" data-role="dialog" id="lastPositionList" data-close-button="true" >
+    <div class="dialog-title">
+        @*<button type="button" class="button js-dialog-close float-right">
+            <span aria-hidden="true"> &times;</span>
+        </button>*@        
+        <h5 class="modal-title text-center"> Situations agents en cours <br /> <small>{{ currentProfil !== null ? currentProfil.nom_complet :'' }}</small> </h5> 
+    </div>
+    <div class="dialog-content">
+        <div class="h400 overflow scroll">
+            <table class="table table-condensed striped row-border">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Déscription</th>
+                        <th>Durée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="currentPositions.length == 0">
+                        <td colspan="5" class="fg-red text-center"> Aucune situation agent en cours</td>
+                    </tr>
+                    <tr v-for="item,index in currentPositions">
+                        <td><span class="border-radius-20 fg-white p-1 pl-2 pr-2" v-bind:class="[item.is_required? ' bd-green bg-green':'bd-cyan bg-cyan']"> {{ ++index  }}</span></td>
+                        <td>{{ item.created_at_string }}</td>
+                        <td>{{ item.type_position }}</td>
+                        <td class="text-bold">{{ item.description }}</td>
+                        <td style="min-width:180px;">{{ item.periode }}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {{currentPositions.length}} résultat(s)
+        <div class="float-right text-small">
+            <span class="border-radius-20 bd-green bg-green fg-green p-1">ww</span> Situation requise
+            <span class="border-radius-20 bd-cyan bg-cyan fg-cyan p-1">ww</span> Situation supplémentaire
+        </div>
+    </div>
+    <div class="dialog-actions">
+        <div class="float-right p-3">
+            <a class="button primary" href="#" v-if="currentProfil && currentProfil.nom" v-on:click="showProfil(currentProfil.agent_id)"> <i class="mif-user"></i> Afficher le profil </a> 
+          </div>
+    </div>
+</div>
+

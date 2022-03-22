@@ -1,0 +1,148 @@
+﻿@model DATACCESS.Models.agent_synthese
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Save", "Enregistrement"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.agent_id)
+    <div class="modal-content">
+        <div class="dialog-title">
+            <button type="button" class="button js-dialog-close float-right">
+                <span aria-hidden="true"> &times;</span>
+            </button>
+            <h5 class="modal-title"> Edition profil agent </h5>
+
+        </div>
+        <div class="dialog-content">
+            <div class="row">
+                <div class="col-6 p-1">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Nom (*)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Postnom (*)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.post_nom, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Prénom (Optionel)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Genre(*)</label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.genre, new SelectList(Enum.GetValues(typeof(DATACCESS.Models.Gender))), new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Lieu de naissance(*)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.lieu_naissance, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Date de naissance(*)</label>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.date_naissance, new { htmlAttributes = new { @class = "input bg-gay", @readonly = "readonly" } })
+                        </div>
+                        <div class="col-1">
+                            @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "date_naissance"); }
+                        </div>
+                    </div>
+                       <div class="form-group row">
+                           <label class="control-label col-md-4">Date d'engagement(*)</label>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.date_engagement, new { htmlAttributes = new { @class = "input bg-gay", @readonly = "readonly" } })
+                        </div>
+                        <div class="col-1">
+                            @{ Html.RenderPartial("~/Views/Shared/_datepicker.cshtml", "date_engagement"); }
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6 p-1">
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Etat civil(*)</label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.etat_civil, new List<SelectListItem> {
+                       new SelectListItem { Value = "Marié(e)", Text= "Marié(e)" },
+                       new SelectListItem { Value = "Célibataire", Text= "Célibataire" },
+                       new SelectListItem { Value = "Veuf(ve)", Text= "Veuf(ve)" }
+                       }, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Nationalité(*)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.nationalite, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.nationalite, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-2">Tel 1 (Optionel)</label>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.telepone_personel_1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.telepone_personel_1, "", new { @class = "text-danger" })
+                        </div>
+                     
+                        <label class="control-label col-md-2">Tel 2 (Optionel)</label>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.telephone_personel_2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.telephone_personel_2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Mail 1 (Optionel)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.mail_personel_1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.mail_personel_1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Mail 2 (Optionel)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.mail_personel_2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.mail_personel_2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">ID pointage (Optionel)</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.id_pointage, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.id_pointage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-actions">
+            <div class="float-right p-3">
+                <button type="submit" class="button outline success"><i class="mif-checkmark"></i>  Enregister</button>
+                <button type="button" class="button js-dialog-close"> <i class="mif-cross"></i> Annuler      </button>
+            </div>
+        </div>
+    </div>
+
+}
+
+

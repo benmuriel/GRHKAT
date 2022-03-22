@@ -1,0 +1,92 @@
+﻿@model  DATACCESS.Models.type_position
+
+@{
+    Layout = "~/Areas/Situation/Views/Shared/_RecrutementLayout.cshtml";
+    ViewBag.Title = "Liste";
+}
+
+<a id="api-typeposs-url" class="d-none" href="@Url.Action("", "api/typeposition/", new { area ="" })"></a>
+<a id="api-data-url" class="d-none" href="@Url.Action("", "api/positiontemporaire/", new { area ="" })"></a>
+<a id="api-validation-url" class="d-none" href="@Url.Action("", "api/validation/", new { area ="" })"></a>
+<a id="api-situation-url" class="d-none" href="@Url.Action("", "api/positiontemporaire/", new { area ="" })"></a>
+<div id="app">
+    <span id="curr_tp" class="d-none">@Model.id</span>
+    <div class="m-3 bg-light">
+        <span class=" display-1 mr-4">@Model.designation</span>
+        <label class="m-2">
+            <input type="radio" v-model="state" value="running" /> En cours
+        </label>
+        <label class="m-2">
+            <input type="radio" v-model="state" value="comming" /> En attente
+        </label>
+        <label class="m-2">
+            <input type="radio" v-model="state" value="tovalidate_start" /> A valider (Debut)
+        </label>
+        <label class="m-2">
+            <input type="radio" v-model="state" value="tovalidate_end" /> A valider  (Fin)
+        </label>
+        <label class="m-2">
+            <input type="radio" v-model="state" value="passed" /> Expirées
+        </label>
+    </div>
+    <div class="p-1">
+        <input type="text" placeholder="Chercher" class="inputsearchField" data-found="#count" data-target="#data" />
+    </div>
+    <div class="overflow-auto h500">
+        <table id="data" class="table striped compact">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Agent</th>
+                    <th>Qualité</th>
+                    <th>Service</th>
+                    <th>Situation</th>
+                    <th>Debut</th>
+                    <th>Fin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in datas" class="searchable" v-bind:data-content="item.agent+item.description+item.periode+item.type_position">
+                    <td> {{ index + 1 }}</td>
+                    @*<td>
+                            <div v-if="state === 'tovalidate_end'"> {{ item.end_requested_at_string }} </div>
+                            <div v-else> {{ item.created_at_string }} </div>
+                        </td>*@
+                    @*<td>{{ item.type_position }}</td>*@
+                    <td style="min-width:220px">
+                        {{ item.agent }}
+                        <div> {{ item.grade_statutaire }} </div>
+                        <div> {{ item.matricule }} </div>
+                    </td>
+                    <td>
+                        {{ item.fonction }}
+                        <div class="text-small "> {{  item.grade_fonction }}</div>
+                    </td>
+                    <td> {{ item.service }} </td>
+                    <td class="text-bold">{{ item.description }}</td>
+                    <td>{{ item.started_at_string }}</td>
+                    <td>{{ item.ended_at_string }}</td>
+                    <td>
+                        <a title="Situations agents en cours" class="button success outline small mr-1" href="#" v-on:click="showCurrentPositionList(item)"> <i class="mif-user-check"></i></a>
+                        <a v-if="state === 'tovalidate_start'|| state === 'tovalidate_end'" title="Valider" href="#" class="button success small" v-on:click="validationForm(item)"> <span class="mif-checkmark"></span> </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><span id="postcount"> {{ datas.length }}</span> resultat(s)</p>
+</div>
+
+@section scripts {
+
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/situation.js"></script>
+    @*<script>
+                $('#@ViewBag.profil').addClass('bg-cyan')
+                function submitSearch() {
+                    $('#searchform').submit();
+                }
+        </script>*@
+}

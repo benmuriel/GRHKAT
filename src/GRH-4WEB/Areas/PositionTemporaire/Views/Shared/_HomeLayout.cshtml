@@ -1,14 +1,14 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Position Temporaire - Accueil";
+    ViewBag.Title = "Positions Temporaires";
 }
-<div class="container-fluid" style="padding-top:50px ">
+<div class="container-fluid">
     @RenderBody()
 </div>
 @section scripts{
     <script>
-        $('#mod_position_temporaire').addClass("text-bold text-underline");
+        $('#mod_pt').addClass("text-bold text-underline");
     </script>
     @RenderSection("scripts", false);
 }

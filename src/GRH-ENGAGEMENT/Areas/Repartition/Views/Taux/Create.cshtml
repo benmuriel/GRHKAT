@@ -1,0 +1,32 @@
+﻿@model DATACCESS.GENG.Models.taux_change
+@{
+    Layout = null;
+}
+    <div> <span class="h3"> Taux actuel :    @Model.valeur.ToString("N") CDF </span>
+    <button title="Nouveau taux" class=" button outline rounded small primary" onclick="Metro.dialog.open('#create')">
+    <i class="mif-pencil"></i>
+</button></div>
+ 
+
+<div class="dialog" data-role="dialog" id="create">
+
+    @using (Html.BeginForm("Create", "Taux"))
+    {
+        <div class="dialog-title">Nouveau Taux</div>
+        <div class="dialog-content">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.devise_id)
+            <div class="row mb-2">
+                <label class="cell-sm-3">Montant (CDF)</label>
+                <div class="cell-sm-9">
+                    <input name="valeur" value="@Model.valeur" type="number" class="metro-input">
+                </div>
+            </div>
+
+        </div>
+        <div class="dialog-actions text-right">
+            <button type="submit" class="button primary">Ok</button>
+            <button type="button" class="button js-dialog-close">Annuler</button>
+        </div                                                                                                         >
+    }
+</div>

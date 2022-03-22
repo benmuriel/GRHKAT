@@ -1,0 +1,46 @@
+﻿@model DATACCESS.GENG.Models.beneficiaire
+
+@{
+    Layout = null; 
+} 
+<div class="row">
+    <div class="col-4">
+        <img class="card-img-to " height="200" width="200" src="~/Content/Images/person.png" alt="photo de profil" />
+
+    </div>
+    <div class="col-6">
+        <p class="text-bold mb-2">@Model.nom_complet</p>
+        <div>@Model.matricule </div>
+        <div><strong>@Model.fonction</strong> @Model.service</div>
+        <div><strong>Grade de carrière</strong> @Model.grade_carriere</div>
+        <div><strong>Grade de fonction</strong> @Model.grade_fonction</div>
+    </div>
+</div>
+<h5>Charges sociales</h5>
+<div class="h300 overflow-auto">
+    <table class="table row-border">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Affinité</th>
+                <th>Occupation</th>
+                <th>Etat de prise en charge</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0;}
+            @foreach (var item in Model.Charge_Sociales)
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td>@item.nom_complet</td>
+                    <td>@item.affinite</td>
+                    <td>@item.occupation</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

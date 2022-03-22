@@ -1,0 +1,32 @@
+﻿@model DATACCESS.GENG.Models.projet_engagement
+
+@{
+    Layout = null;
+}
+<button title="Nouveau dossier d'engagement" class=" primary button small rounded outline"
+        onclick="Metro.dialog.open('#edit_@Model.id')">
+    <i class="mif-pencil"></i>@(Model.id == 0? "Mouveau " : "Renommer")
+</button>
+@using (Html.BeginForm("Save", "Home"))
+{
+    <div class="dialog w-50" data-role="dialog" id="edit_@Model.id">
+
+
+        <div class="dialog-title">@(Model.id == 0? "Nouveau " : "Renommer le") dossier d'engagement</div>
+        <div class="dialog-content">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.id)
+            <div class="row mb-2">
+                <label class="cell-sm-3 text-bold">Nom du dossier (*)</label>
+                <div class="cell-sm-9">
+                    @Html.EditorFor(model => model.designation, new { htmlAttributes = new { @class = "input" } })
+                </div>
+            </div>
+        </div>
+        <div class="dialog-actions text-right">
+            <button type="submit" class="button primary"><i class="mif-checkmark"></i> Enregister</button>
+            <button type="button" class="button js-dialog-close"> <i class="mif-cross"></i> Annuler</button>
+        </div>
+
+    </div>
+}

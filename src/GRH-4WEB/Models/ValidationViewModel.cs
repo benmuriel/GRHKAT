@@ -7,6 +7,8 @@ namespace GRH_4WEB.Models
 {
     public class ValidationViewModel
     {
-        public long objet_id { get; set; }
+        public long id { get; set; }
+        public long agent_id { get; set; }
+        public string request_for { get; set; }
     }
 }

@@ -13,6 +13,6 @@ namespace DATACCESS.Models
         public string designation { get; set; }
         public string description { get; set; }
         public ICollection<type_position> type_positions { get; set; }
-        public ICollection<institution_detachement> institution_detachements { get; set; }
+        
     }
 }

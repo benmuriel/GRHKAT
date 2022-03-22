@@ -1,0 +1,63 @@
+﻿@model DATACCESS.GENG.Models.beneficiaire
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+    <h2>Préparatif - Bénéficiaire - Détails sur Agent</h2>
+
+<div class="row">
+    <div class="col-6">
+         @{Html.RenderPartial("Profil");} 
+    </div>
+    <div class="col-6">
+        <a href="@Url.Action("Detail","Beneficiaire", new { area="Repartition", id=Model.id })" class="button primary small">Eligibilité à la prise en charge (0)</a>
+        <a href="@Url.Action("Historique","Beneficiaire", new { area="Repartition", id=Model.id })"class="button small">Historique des engagements (0)</a>
+        <h5>Eligibilité à la prise en charge (0)</h5>
+        <div class="h500 overflow-auto">
+            <table class="table row-border striped compact">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type de prise en charge</th>
+                        <th>Ocurence </th>
+                        <th>Période de validité </th>
+                        <th>Hauteur d'engagement  </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 0;}
+                    @foreach (var item in Model.eligibilite_prise_en_charges.OrderBy(e => e.validated_at).ToList())
+                    {
+                        i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>
+                                <div class="text-bold">@item.type_prise_en_charge</div>
+                                <div class="text-small">Situation @item.type_position</div>
+                                <div class="text-small">@item.include_charge_sociale_string</div>
+                            </td>
+                            <td>@item.occurence_string</td>
+                            <td>@item.validated_at.ToString("dd/MM/yyyy")- @(item.ended_at != null? item.ended_at.Value.ToString("dd/MM/yyyy"):"Indéterminée")</td>
+                            <td></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+@*<table class="table row-border">
+        <thead>
+            <tr>
+                <th> Projet d'engangement</th>
+                <th>Date d'engagement </th>
+                <th> Type de prise charge </th>
+                <th> Montant  </th>
+                <th>Etat de taitement</th>
+            </tr>
+        </thead>
+    </table>*@

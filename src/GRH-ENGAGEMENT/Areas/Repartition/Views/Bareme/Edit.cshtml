@@ -1,0 +1,46 @@
+﻿@model DATACCESS.GENG.Models.bareme
+@{
+    Layout = null;
+}
+
+<button title="@(Model.type_prise_en_charge+ " "+@Model.grade_id)" class=" float-right button outline rounded small @(Model.montant >0 ?"success":"alert")"
+        onclick="Metro.dialog.open('#bareme_@(Model.type_prise_en_charge_id+""+Model.grade_id)')">
+    @Model.montant.ToString("N") @Model.devise_id <i class="mif-pencil"></i>
+</button>
+
+<div class="dialog" data-role="dialog" id="bareme_@(Model.type_prise_en_charge_id+""+Model.grade_id)">
+
+    @using (Html.BeginForm("Create", "Bareme"))
+    {
+        <div class="dialog-title">Edition Barème</div>
+        <div class="dialog-content">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.type_prise_en_charge_id)
+            @Html.HiddenFor(model => model.devise_id)
+            @Html.HiddenFor(model => model.grade_id)
+            <div class="row mb-2">
+                <label class="cell-sm-3">Grade</label>
+                <div class="cell-sm-9">
+                    <input type="text" value="@Model.grade_id" class="metro-input" readonly>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="cell-sm-3">Type de prise en charage</label>
+                <div class="cell-sm-9">
+                    <input type="text" value="@Model.type_prise_en_charge" class="metro-input" readonly>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="cell-sm-3">Montant (@Model.devise_id)</label>
+                <div class="cell-sm-9">
+                    <input name="montant" value="@Model.montant" type="number" class="metro-input">
+                </div>
+            </div>
+
+        </div>
+        <div class="dialog-actions text-right">
+            <button type="submit" class="button primary">Ok</button>
+            <button type="button" class="button js-dialog-close">Annuler</button>
+        </div>
+    }
+</div>

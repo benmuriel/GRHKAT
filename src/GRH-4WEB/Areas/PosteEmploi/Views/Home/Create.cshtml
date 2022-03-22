@@ -5,32 +5,46 @@
 
 <form>
     <div class="dialog-title text-center">
-        <h5 class="card-title"> Nouveau poste d'emploi</h5>
+        <div class="card-title">
+            <p> Edition poste d'emploi </p>
+            <small class="m-3 text-bold">
+                {{ departement? departement.designation:'' }}
+            </small>
+        </div>
+
     </div>
     <div class="dialog-content">
         @Html.AntiForgeryToken()
         <input type="hidden" v-model="poste.structure_id" />
         <input v-model="poste.id" type="hidden" />
-        <div class="m-3 text-bold">
-            {{ poste.structure }}
+        <div class="m-2 row">
+            <label class="col-md-2">Fonction (*) </label>
+            <div class="col-md-10">
+                <textarea v-model="poste.fonction"></textarea>
+            </div>
         </div>
         <div class="m-2 row">
-            <label class="col-md-2">Fonction </label>
-            <div class="col-md-6">
-                <select class="form-control bo-select" v-model="poste.fonction">
-                    <option v-for="item in fonctions"  v-bind:value="item">{{ item.designation }}</option>
+            <label class="col-md-2">Grade de poste (*) </label>
+            <div class="col-md-10">
+                <select class="form-control bo-select" v-model="poste.grade_fonction">
+                    <option v-for="item in grades" v-bind:value="item.id">{{ item.describe }}</option>
                 </select>
             </div>
-            <div class="col-md-4">
-                <input type="text" placeholder="précision" v-model="poste.designation" />
+        </div>
+        <div class="m-2 row">
+            <div class="col-md-6 offset-2">
+                <label>
+                    <input type="checkbox" v-model="poste.is_politic" /> Est un poste politique
+                </label>
             </div>
-        </div>       
-        <p class="m-4 text-leader border rounded bd-amber p-4 text-center">
-            {{ fullPostename }}
-        </p>
+        </div>
+
+        <h2 class="m-4 border rounded bd-amber bg-light p-4 text-center text-upper">
+            {{ poste.fonction }}
+        </h2>
     </div>
     <div class="dialog-actions text-right">
-        <button v-if="poste.fonction_id != 0" type="button" class="button success  js-dialog-close" v-on:click="save">  Enregister</button>
+        <button v-if="poste.fonction && poste.grade_fonction" type="button" class="button success  js-dialog-close" v-on:click="save">  Enregister</button>
         <button type="button" class="button js-dialog-close">  Annuler  </button>
     </div>
 </form>

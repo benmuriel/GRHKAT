@@ -3,31 +3,37 @@
     Layout = "~/Areas/PosteEmploi/Views/Shared/_HomeLayout.cshtml";
 }
 
- 
+
 <a id="api-structure-url" class="d-none" href="@Url.Action("", "api/structure", new { area ="" })"></a>
-<a id="api-fonction-url" class="d-none" href="@Url.Action("", "api/fonction", new { area ="" })"></a>
+<a id="api-grade-url" class="d-none" href="@Url.Action("", "api/grade", new { area ="" })"></a>
 <a id="api-posteemploi-url" class="d-none" href="@Url.Action("", "api/posteemploi/", new { area ="" })"></a>
-<a id="new-url" class="d-none" href="@Url.Action("Create", "Poste", new { id =0 })"></a>
-<a id="poste-url" href="@Url.Action("Index","Poste",new { id= 0 })"></a>
 <a id="profil-url" href="@Url.Action("Profil",new { area="ProfilAgent", id= 0 })"></a>
 
 <div id="app" class="row">
-    <div class="col-4 ">
+    <div class="col-4 bg-gray">
+        <h4>Postes & emplois </h4>
         @{Html.RenderPartial("StrTree");}
     </div>
-    <div class="col-8 bg-light">
-        <div class="text-center" v-if="departement.id != 0">
-            <h5 class="m-2 "> {{ departement.designation }}</h5><hr />
-            <a id="p_all" v-on:click="loadDatas(null)" class="button outline primary m-1">Tous les postes <span class="badge inside">0</span></a>
-            <a id="p_occupe" v-on:click="loadDatas('occupe')" class="button outline success m-1">Postes occupés <span class="badge inside">0</span></a>
-            <a id="p_vacant" v-on:click="loadDatas('vacant')" class="button outline alert m-1">Postes vacants <span class="badge inside">0</span></a>
-            <a v-on:click="newPoste()" class="button outline primary m-1s">Nouveau poste</a>
+    <div class="col-8">
+        <div class="text-cente bg-gray p-2">
+            <h5 class="m-2 "> {{ departement === null? '-selectionner un département-'  :  departement.fullName  }}</h5><hr />
+            <div class="bg-white p-">
+                <input title="Postes occupés" name="state" checked="checked" type="radio" data-role="radio" data-caption="Postes occupés" v-on:click="loadDatas('occupied')"> <span class="mb-2">({{  departement === null? 0  :  departement.nbe_poste_occupied }})</span> 
+                <input title="Postes vacants" name="state" type="radio" data-role="radio" data-caption="Postes vacants" v-on:click="loadDatas('vacant')"> ({{  departement === null? 0  :  departement.nbe_poste_vacant }})
+                <input title="Tous les postes" name="state"  type="radio" data-role="radio" data-caption="Tous les postes" v-on:click="loadDatas(null)">({{  departement === null? 0  :  departement.nbe_poste }})
+
+            </div>
+            <div class="row">
+                <div class="  col-12">
+                    <input type="search" class="form-control col-12 searchField" data-found="#postcount" data-target="#posttable" placeholder="Filtrer la liste" />
+                </div>
+            </div>
         </div>
         @{Html.RenderPartial("PosteList"); }
     </div>
     <div id="newposteform" class="dialog w-50" data-role="dialog">
         @{Html.RenderPartial("Create");}
-    </div> 
+    </div>
     <div id="deleteposteform" class="dialog" data-role="dialog">
         @{Html.RenderPartial("Delete");}
     </div>

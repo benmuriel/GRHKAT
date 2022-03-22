@@ -1,0 +1,63 @@
+﻿@model DATACCESS.GENG.Models.beneficiaire
+@{
+    ViewBag.Title = "Historique";
+}
+
+
+<h2>Préparatif - Bénéficiaire - Historique des engagements</h2>
+
+<div class="row">
+    <div class="col-6">
+        @{Html.RenderPartial("Profil");}
+    </div>
+    <div class="col-6">
+        <a href="@Url.Action("Detail","Beneficiaire", new { area="Repartition", id=Model.id })" class="button  small">Eligibilité à la prise en charge (0)</a>
+        <a href="@Url.Action("Historique","Beneficiaire", new { area="Repartition", id=Model.id })" class="button primary small">Historique des engagements (0)</a>
+        <h5>Historique des engagements (0)</h5>
+        <div class="h500 overflow-auto">
+            <table class="table row-border striped compact">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Projet d'engaegment </th>
+                        <th>Type de prise en charge</th>
+                        <th>Date d'engagement </th>
+                        <th>Montant </th>
+                        <th>Instance d'execution</th>
+                        <th>Hauteur de liquidation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 0;}
+                    @foreach (var item in Model.engagements.OrderBy(e => e.created_at).ToList())
+                    {
+                        i++;
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.projet_engagement</td>
+                        <td>@item.type_prise_en_charge</td>
+                        <td>@item.created_at.ToString("dd/MM/yyyy")</td>
+                        <td>@item.montant</td>
+                        <td>@item.instance_execution</td>
+                        <td>
+                            hauteur du montant liquider
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+@*<table class="table row-border">
+        <thead>
+            <tr>
+                <th> Projet d'engangement</th>
+                <th>Date d'engagement </th>
+                <th> Type de prise charge </th>
+                <th> Montant  </th>
+                <th>Etat de taitement</th>
+            </tr>
+        </thead>
+    </table>*@

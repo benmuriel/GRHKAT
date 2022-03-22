@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Rerutement";
+}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2"> 
+                @RenderSection("title", required: false)
+                <div>@RenderSection("situationtype", required: false)</div>
+            </div>
+            <div class="col-10"> @RenderBody()</div>
+        </div>
+    </div>
+
+@section scripts{
+    <script>
+        $('#mod_recrutement').addClass("text-bold text-underline");
+    </script>
+    @RenderSection("scripts", false)
+}

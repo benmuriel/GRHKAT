@@ -48,7 +48,7 @@ function dateSelected(sel, day, el) {
 
     var date = new Date()
     date.setTime(sel[0])
-    $(target).val(date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear())
+    $(target).val(date.getDate() + "/" +( date.getMonth()+1 )+ "/" + date.getFullYear())
     Metro.dialog.close(dialog)
 }
 
@@ -94,7 +94,14 @@ $(".service-name").change(function () {
     });
 });
 var loader = null;
+var activity = null;
 function loaderOpen() {
+    activity = Metro.activity.open({
+        type: 'cycle',
+        style: 'color',
+        overlayColor: '#DCDCDC'
+    });
+    return
     if (loader !== null) return
     loader = Metro.infobox.create("Chargement en cours ...",
         "",
@@ -108,6 +115,7 @@ function loaderOpen() {
 }
 
 function loaderClose() {
+    Metro.activity.close(activity);
     if (loader !== null) {
         Metro.infobox.close(loader);
         loader = null

@@ -3,12 +3,12 @@
     Layout = "~/Areas/ProfilAgent/Views/Shared/_HomeLayout.cshtml";
     ViewBag.Title = "Profil Agent";
 }
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-3">
             @RenderSection("profil", required: false)
         </div>
-        <div class="col-md-8">
+        <div class="col-9">
             @RenderBody()
         </div>
     </div>
@@ -16,7 +16,7 @@
 </div>
 @section scripts{
     <script>
-        $('#mod_profil_agent').addClass("active");
+        $('#mod_profil_agent').addClass("active")
     </script>
-    @RenderSection("scripts", false);
+    @RenderSection("scripts", false)
 }

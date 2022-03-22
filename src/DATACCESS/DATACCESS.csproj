@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -52,31 +55,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO.cs" />
+    <Compile Include="GENG\GengModel.cs" />
+    <Compile Include="GENG\Models\bareme.cs" />
+    <Compile Include="GENG\Models\beneficiaire.cs" />
+    <Compile Include="GENG\Models\charge_sociale.cs" />
+    <Compile Include="GENG\Models\departement.cs" />
+    <Compile Include="GENG\Models\eligibilite_prise_en_charge.cs" />
+    <Compile Include="GENG\Models\engagement.cs" />
+    <Compile Include="GENG\Models\grade.cs" />
+    <Compile Include="GENG\Models\instance_traitement.cs" />
+    <Compile Include="GENG\Models\projet_engagement.cs" />
+    <Compile Include="GENG\Models\taux_change.cs" />
+    <Compile Include="GENG\Models\type_prise_en_charge.cs" />
+    <Compile Include="GENG\Service.cs" />
+    <Compile Include="GENG\ServiceEngagement.cs" />
+    <Compile Include="GENG\ServiceRepartition.cs" />
     <Compile Include="GrhkatModel.cs" />
     <Compile Include="Models\agent_synthese.cs" />
-    <Compile Include="Models\carriere.cs" />
     <Compile Include="Models\categorie_type_position.cs" />
     <Compile Include="Models\corps_metier.cs" />
     <Compile Include="Models\fonction.cs" />
     <Compile Include="Models\grade.cs" />
-    <Compile Include="Models\grade_carriere.cs" />
-    <Compile Include="Models\institution_detachement.cs" />
-    <Compile Include="Models\situation_agent.cs" />
+    <Compile Include="Models\lieu_realisation_type_position.cs" />
+    <Compile Include="Models\motif_type_position.cs" />
+    <Compile Include="Models\planning_project.cs" />
+    <Compile Include="Models\structure.cs" />
+    <Compile Include="Models\type_affinite_charge_sociale.cs" />
     <Compile Include="Models\type_position.cs" />
     <Compile Include="Models\type_structure.cs" />
-    <Compile Include="Models\v_all_validation.cs" />
     <Compile Include="Models\v_charge_sociale.cs" />
-    <Compile Include="Models\v_emploi.cs" />
     <Compile Include="Models\v_localisation.cs" />
+    <Compile Include="Models\v_planning_project.cs" />
     <Compile Include="Models\v_position_temporaire.cs" />
     <Compile Include="Models\v_poste.cs" />
+    <Compile Include="Models\poste.cs" />
     <Compile Include="Models\v_poste_planning.cs" />
-    <Compile Include="Models\v_poste_vacant.cs" />
+    <Compile Include="Models\v_situation_agent_required.cs" />
+    <Compile Include="Models\v_situation_agent_traitement.cs" />
     <Compile Include="Models\v_structure.cs" />
     <Compile Include="ModuleAgent.cs" />
     <Compile Include="ModulePlanning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ChargeSocialViewModel.cs" />
+    <Compile Include="ViewModels\SituationAgentValueListItemViewModel.cs" />
     <Compile Include="ViewModels\DureePositionViewModel.cs" />
     <Compile Include="ViewModels\ServicePosteVacantViewModel.cs" />
   </ItemGroup>
@@ -84,6 +104,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

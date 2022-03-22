@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DATACCESS.GENG.Models.taux_change>
+@{
+    ViewBag.Title = "Taux";
+}
+
+<h2>Taux de change USD-CDF</h2>
+<p>Vue que le barème est établi en USD, ce taux permet la conversion USD-CDF des les prises ne charge faites en CDF.</p>
+
+<div class="text-center">
+    <div class="card">
+        <div class="card-header">
+            @{Html.RenderAction("Create");}
+        </div>
+    </div>
+</div>
+<h6>Historique des changements de taux</h6>
+<div class="grid400">
+    <table class="table striped compact">
+        <thead>
+            <tr>
+                <th>Montant</th>
+                <th>Création</th>
+                <th>Archivage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.valeur.ToString("N") CDF</td>
+                    <td>@item.created_at.ToString("dd/MM/yyyy")</td>
+                    <td>@(item.expired_at != null? item.expired_at.Value.ToString("dd/MM/yyyy"):"")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

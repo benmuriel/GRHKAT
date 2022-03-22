@@ -1,0 +1,29 @@
+﻿
+@model DATACCESS.Models.v_position_temporaire
+
+@{
+    Layout = null;
+}
+ 
+    <div id="delete_@Model.id" class="dialog" data-role="dialog">
+        @using (Html.BeginForm("Delete", "PositionTemporaire", FormMethod.Post, new { area = "ProfilAgent" }))
+        {  
+            <div class="dialog-title text-center">
+                <div > Suppression d'element en edition <span class="text-bold"> @Model.type_position</span></div>
+            </div> 
+            <div class="dialog-content">
+                @Html.HiddenFor(model => model.id)
+                @Html.HiddenFor(model => model.agent_id)
+                @Html.AntiForgeryToken()
+                @{ Html.RenderPartial("ShortDescription"); }
+            </div>
+            <div class="dialog-actions text-right">
+                <button type="submit" class="button alert">  Supprimer</button>
+                <button type="button" class="button js-dialog-close">  Annuler  </button>
+            </div>
+        }
+    </div>
+ 
+
+
+

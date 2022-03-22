@@ -2,36 +2,65 @@
     el: '#app',
     data: {
         datas: [],
-        depts: [],
-        currentStr:null
-    },
-    computed: {
-        profilAvecEmploi: function () {
-            var profil = $('#profil').text();
-            return profil === 'avec_emploi'
+        currentStr: null,
+        currentPositions: [],
+        currentProfil: null,
+        request: {
+            search: '',
+            order: 'savedesc',
+            limit:100
         }
     },
+    computed: {
+
+    },
     methods: {
+       
         loadDatas: function () {
-            var search = $('#search').text();
-            var profil = $('#profil').text();          
+            var search = $('#search').text(); 
             var me = this;
             loaderOpen()
-          
-            var url = $('#api-agent-url').attr('href') + (this.currentStr !== null ? this.currentStr.id : '') + '?'
-            url = url + (search!==''? 'search=' + search+'&':'') + 'profil=' + profil
-            axios.get(url)
+
+            var url = $('#api-agent-url').attr('href') 
+            axios.get(url,
+                {
+                    params: {
+                        search: me.request.search,
+                        order: me.request.order,
+                        limit: me.request.limit
+                    }
+                })
                 .then(response => {
                     me.datas = response.data
                     loaderClose()
                     initFilter();
                 })
         },
-        profil: function (agent_id) {
+        showProfil: function (agent_id) {
             var url = $('#profil-url').attr('href')
-           // console.log(url.replace('0', agent_id)); return
-            var win = window.open(url.replace('0', agent_id), '_blank')
-            win.focus()
+            // console.log(url.replace('0', agent_id)); return
+            // var win = window.open(url.replace('0', agent_id), '_blank')
+            // win.focus()
+            window.location.href = url.replace('0', agent_id)
+
+        },
+        showCurrentPositionList: function (item) {
+            var me = this
+            this.currentProfil = item
+            var url = $('#api-situation-url').attr('href')
+            loaderOpen()
+            axios.get(url, {
+                params: {
+                    agent_id: this.currentProfil.agent_id,
+                    state:"running"
+                }
+            })
+                .then(response => {
+                    me.currentPositions = response.data                  
+                    Metro.dialog.open('#lastPositionList')
+                    loaderClose()
+                })
+           
         },
         loadDepts: function () {
             var me = this
@@ -42,10 +71,10 @@
                     loaderClose()
                     initFilter();
                 })
-        },
+        }
     },
     mounted: function () {
-        this.loadDepts()
         this.loadDatas();
+        $('#tp_0').removeClass("outline")
     }
 });

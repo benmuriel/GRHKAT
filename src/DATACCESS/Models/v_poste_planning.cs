@@ -13,9 +13,6 @@ namespace DATACCESS.Models
         [Key]
         public long id { get; set; }
         public string grade_fonction { get; set; }
-
-        public int fonction_id { get; set; }
-        public string designation { get; set; }
         public string fonction { get; set; }
         public bool is_politic { get; set; }
         public short structure_id { get; set; }

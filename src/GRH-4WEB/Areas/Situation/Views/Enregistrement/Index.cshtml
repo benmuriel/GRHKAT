@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DATACCESS.Models.agent_synthese>
+
+@{
+    Layout = "~/Areas/Situation/Views/Shared/_RecrutementLayout.cshtml";
+    ViewBag.Title = "Enregistrement";
+}
+
+<a id="api-structure-url" class="d-none" href="@Url.Action("", "api/structure", new { area ="" })"></a>
+<a id="api-typpos-url" class="d-none" href="@Url.Action("", "api/typeposition", new { area ="" })"></a>
+<div id="search" class="d-none">@ViewBag.q</div>
+<a id="profil-url" href="@Url.Action("Profil",new { id=0, area="ProfilAgent" })" class="d-none"></a>
+<a id="api-agent-url" class="d-none" href="@Url.Action("", "api/agent/", new { area ="" })"></a>
+<a id="api-situation-url" class="d-none" href="@Url.Action("", "api/positiontemporaire/", new { area ="" })"></a>
+
+<div id="app">
+    <div class="bg-gray">
+        <div class="row">
+            <div class="col-2">
+                <h5 class="m-2">
+                    @ViewBag.pagetitle 
+                </h5>
+                @*<p class="p-2 text-bold">{{ request.search  ? 'Récherche pour '+request.search: ''}}</p>*@
+            </div>
+            <div class="col-7">
+                <input v-model="request.search" v-on:key.enter="loadDatas()" class="form-control" type="text" placeholder="Rechercher" />
+            </div>
+            <div class="col-1">
+                <button title="Rechercher" type="button" v-on:click="loadDatas()" class="button primary outline bg-white fg-blue-hover"><i class="mif-search"></i> </button>
+            </div>
+
+            <div class="col-2 offset- text-right">
+                <a class="button primary mr-1" onclick="Metro.dialog.open('#create_ident')" href="#"><span class="mif mif-user-plus"></span> Nouveau  </a>
+                <div id="create_ident" class="dialog w-75" data-role="dialog">
+                    @{ Html.RenderPartial("~/Areas/Situation/Views/Enregistrement/Create.cshtml", new DATACCESS.Models.agent_synthese()); }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @if (ViewBag.q == null)
+            {
+                <div class="col-3 offset-2">
+                    <input type="search" data-search-button="true" class="col-md-12 searchField" data-found="#count" data-target="#data" placeholder="Filtrer la liste" />
+                </div>
+                <div class="col-1">
+                    <select class="select" v-model="request.limit" v-on:change="loadDatas()">
+                        <option value="100"> 100 </option>
+                        <option value="200"> 200 </option>
+                        <option value="500"> 500 </option>
+                        <option value="1000"> 1000 </option>
+                        <option value="0"> Tous  </option>
+                    </select>
+                </div> <div class="col-3">
+                    <select class="select" v-model="request.order" v-on:change="loadDatas()">
+                        <option value="alpha"> par ordre alphabétique</option>
+                        <option value="saveasc"> par date d'enregistrement croissant</option>
+                        <option value="savedesc"> par date d'enregistrement décroissant</option>
+                    </select>
+                </div>
+
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @{Html.RenderPartial("_SearchResultPartial"); }
+            @{Html.RenderPartial("_LastPositionList"); }
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/profilagent.js"></script>
+    @*<script>
+                $('#@ViewBag.profil').addClass('bg-cyan')
+                function submitSearch() {
+                    $('#searchform').submit();
+                }
+        </script>*@
+}

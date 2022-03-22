@@ -1,0 +1,59 @@
+﻿
+
+<div class="h500 overflow scroll">
+    <table id="data" class="table compact striped row-border row-hover">
+        <tr>
+            <th class="text-left">ID</th>
+            <th class="text-left">Date d'enregistrement</th> 
+            <th class="text-left">Nom  </th>
+            <th class="text-left">Genre </th>
+            <th class="text-left">Date de naissance </th>
+            <th class="text-left">Age </th>
+            @*<th class="text-left">Date d'engagement </th>
+            <th class="text-left">Ancienneté </th>*@ 
+            <th></th>
+        </tr>
+        <tr class="searchable" v-for="item in datas" v-bind:data-content="item.nom_complet+item.service+item.matricule">
+            <td class="text-small">
+                <div title="Id Enregistrement"> RECID: {{item.agent_id}}</div>
+                <div title="ID au pointage">PGTID: {{item.id_pointage}}</div>
+            </td>
+            <td>{{ item.created_at_string }}</td>
+
+            <td class="text-bold">  {{item.nom_complet }}       </td>
+            <td>  {{item.genre }}      </td>
+            <td>  {{ item.date_naissance_string }}      </td>
+            <td>{{ (item.age ? item.age +'an(s)' : '-' ) }} </td>
+            @*<td>  {{ item.date_engagement_string }}      </td>
+            <td>{{ (item.anciennete ? item.anciennete +'an(s)' : '-' ) }} </td>
+            <td>
+            {{ item.matricule }}
+        </td>
+        <td>
+            {{ item.grade_carriere }}
+        </td>
+        <td style="min-width:200px;">
+            <strong>{{ item.fonction }} </strong> -
+            {{ item.service }}
+            <div class="text-muted fg-green">{{ item.etat_service }}</div>
+        </td>*@
+
+            <td>
+                <a class="button success outline" title="Afficher le profil " href="#" v-on:click="showProfil(item.agent_id)"> <i class="mif-user"></i> </a>
+                <button title="Situations agents" class="image-button primary outline " href="#" v-on:click="showCurrentPositionList(item)">
+                    <span class="mif-user-check icon"></span>
+                    <span class="caption">
+                        <span title="Situations agents en cours" class="border  bd-cyan bg-cyan p-1 fg-white">{{ item.total_agent_situation }}</span>
+                        <span title="Situations agents requis" class="fg-white p-1" v-bind:class="[item.total_situation_requis == item.total_agent_situation_requis? 'bd-green bg-green':'bd-red bg-red']">
+                            {{ item.total_situation_requis }}/{{ item.total_agent_situation_requis }}
+                        </span>
+                    </span>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="">
+    <div class="text-left mt-2"><span id="count"> {{ datas.length }} </span>resultat(s)</div> <hr />
+</div>
+

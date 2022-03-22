@@ -5,55 +5,77 @@
 }
 
 
-<table class="table mt-2 row-border striped">
-    <thead>
-        <tr>
-            <th>  Nom </th>
 
-            <th> Lieu/ Date de naissance  </th>
-            <th> Occupation </th>
-            <th>  Prise en charge   </th>
-
-            <th>
-                <a href="@Url.Action("Create","ChargeSociale", new {agent_id = ViewBag.agent_id })" class="m-2 button outline primary float-right">Nouveau</a>
-            </th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="m-3">
+    <h5 class="d-inline">Personnes à charges</h5>
+    <div class="dropdown-button d-inline ml-5">
+        <button class="button dropdown-toggle primary outline small">Nouveau</button>
+        <ul class="d-menu place-right" data-role="dropdown">
+            @foreach (var item in DATACCESS.ModulePlanning.TypeAffiniteChargeSocialLoad())
+            {
+                <li class="border border-1 bd-gray"><a href="@Url.Action("Create","ChargeSociale", new {area="ProfilAgent", id=item.id, agent_id = ViewBag.agent_id })">@item.designation</a></li>
+            }
+        </ul>
+    </div> 
+</div>
+<div class="h500 overflow scroll">
+    <table class="table row-border striped compact">
+        <thead>
             <tr>
+                <th>  # </th>
+                <th>  Nom </th>
+                <th> Lieu de naissance  </th>
+                <th>  Date de naissance  </th>
+                <th>  Age </th>
+                <th> Occupation </th>
+                <th> Date d'expiration   </th>
+                <th> Etat de prise en charge   </th>
+
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td> <span class=" bg-@item.state_color  p-1"> @i</span> @{++i;}</td>
                 <td>
                     @item.nom_complet
-                    <div class="text-right">
+                    <div class="text-small">
                         <span class="text-bold">Affinité </span>:
                         <span>
-                            @item.affinite
-                            <span class="badge insid bg-@(item.genre == "H" ? "cyan" : "pink") fg-white">
+                            @item.type_affinite_charge_sociale
+                            <span class="badge inside bg-@(item.genre == "H" ? "cyan" : "pink") fg-white">
                                 @Html.DisplayFor(modelItem => item.genre)
                             </span>
                         </span>
                     </div>
                 </td>
+                <td> @item.lieu_naissance</td>
                 <td>
-                    <div>
-                        @item.lieu_naissance
-                    </div>
                     @item.date_naissance.ToString("dd/MM/yyyy")
                 </td>
-
                 <td>
-                    @Html.DisplayFor(modelItem => item.occupation)
+                    <span class="float-right"> @item.age an(s)</span>
                 </td>
+                <td>  @Html.DisplayFor(modelItem => item.occupation)   </td>
+                <td>  @(item.date_expiration_prise_charge != null? item.date_expiration_prise_charge.Value.ToString("dd/MM/yyyy"):"-" ) </td>
                 <td>
                     @item.etat_prise_en_charge
                 </td>
                 <td>
-                    <a class="button" href="@Url.Action("Edit", "ChargeSociale", new { id = item.id })"> <span class="mif mif-pencil"></span> Modifier</a>
-                    <a class="button" href="@Url.Action("Delete", "ChargeSociale", new { id = item.id })"> <span class="mif mif-bin"></span> Supprimer</a>
+                    <a class="button primary small outline"  title="Modifier" href="@Url.Action("Edit", "ChargeSociale", new { id = item.id })"> <span class="mif mif-pencil"></span> </a>
+                    <a class="button alert small outline" title="Supprimer" href=# onclick="Metro.dialog.open('#delete_@item.id')">  <span class="mif mif-bin"></span> </a>
+                    @{
+                        Html.RenderPartial("Delete", new GRH_4WEB.Models.ChargeSocialViewModel { charge_id = item.id, agent_id = item.agent_id, nom = item.nom_complet });
+                    }
+                </td>
             </tr>
-        }
-    </tbody>
-</table>
-
+            }
+        </tbody>
+    </table>
+    </div>

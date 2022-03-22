@@ -1,0 +1,31 @@
+﻿@model DATACCESS.GENG.Models.projet_engagement
+  
+@{
+    Layout = null;
+}
+
+
+<button title="Supprimer dossier d'engagement" class=" alert button small rounded outline"
+        onclick="Metro.dialog.open('#delete_@Model.id')">
+    <i class="mif-bin"></i>Supprimer
+</button>
+
+<div class="dialog w-25" data-role="dialog" id="delete_@Model.id">
+
+    @using (Html.BeginForm("Delete", "Home"))
+    {
+        <div class="dialog-title">Suppression</div>
+        <div class="dialog-content">
+            @Html.AntiForgeryToken()
+            <input type="hidden" value="@Model.id" name="id" />
+             <div class="mb-2">
+                <h5>Supprimer le dossier d'engagement No @Model.id ? </h5>
+                <p>(Action irreversible)</p>
+            </div>
+        </div>
+        <div class="dialog-actions text-right">
+            <button type="submit" class="button alert"><i class="mif-bin"></i> Supprimer</button>
+            <button type="button" class="button js-dialog-close"> <i class="mif-cross"></i> Annuler</button>
+        </div>
+    }
+</div>

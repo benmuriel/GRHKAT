@@ -1,0 +1,96 @@
+﻿@model IEnumerable<DATACCESS.Models.v_position_temporaire>
+
+@{
+    Layout = null;
+}
+<div class="m-3">
+    <h5 class="d-inline">Situations de l'agent</h5>
+    <div class="dropdown-button d-inline ml-5">
+        <button class="button dropdown-toggle primary outline small"><i class="mif-plus"></i> Nouveau</button>
+        <ul class="d-menu place-right bg-light" data-role="dropdown">
+            @foreach (var item in DATACCESS.ModulePlanning.TypesPositionTemporaire(null))
+            {
+                <li class="border border-1 bd-gray">
+                    @if (item.is_motif_value)
+                    {
+                        <a href="#" class="dropdown-toggle ">@item.designation</a>
+                        <ul class="d-menu" data-role="dropdown">
+                            @foreach (var ite in DATACCESS.ModulePlanning.TypesPositionTemporaireMotifLoad(item.id))
+                            {
+                                <li class="border border-1 bd-gray">
+                                    <a href="@Url.Action("Create","PositionTemporaire", new {area="ProfilAgent", id=item.id,motifid=ite.id,agent_id = ViewBag.agent_id })">@ite.designation</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Create","PositionTemporaire", new {area="ProfilAgent", id=item.id, agent_id = ViewBag.agent_id })">@item.designation</a>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="h500 overflow scroll">
+    <table class="table table-sm table-hover m-2 row-hover compact ">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th> Type</th>
+                <th>Description</th>
+
+                <th>Debut</th>
+                <th>Fin</th>
+                <th>Reférence</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                         @i @{++i;}
+                        @if (item.isRunning)
+                        {
+                            <div class="float-right">
+                                <button title="Voir le qrcode de la déscription" class="button" onclick="createQrCode('@item.type_position','@item.description')"> <i class="mif-qrcode"></i></button>
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        <div class="text-bold">@item.type_position</div>
+                        <div class="fg-@item.state_color"> @item.state_string</div>
+                    </td>
+                    <td style="max-width:200px;">
+                        @item.description
+                        <div class="text-secondary">@item.details</div>
+                    </td>
+
+                    <td>@item.started_at_string</td>
+                    <td style="max-width:150px;">
+                        @{ Html.RenderAction("ToValidate", "PositionTemporaire", new { id = item.id }); }
+                    </td>
+                    <td style="max-width:150px;">@item.start_reference</td>
+                    @*@{ var pce = ;}
+                        @if (item.isRunning)
+                        {
+                            <a href="@Url.Action("UpdatePriseEnCharge", "PositionTemporaire", new { id = item.id })" title="Actualiser les listes des prise en charge" class="button small primary float-right mr-5"><i class="mif-refresh"></i> Actualiser</a>
+                        }
+                        <div data-role="accordion"
+                             data-one-frame="false"
+                             data-show-active="true">
+                            <div class="frame">
+                                <div class="heading">Avantages sociaux (@pce.Count)</div>
+                                <div class="content">
+                                </div>
+                            </div>
+                        </div>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<DATACCESS.GENG.Models.beneficiaire>
+@{
+    ViewBag.Title = "Beneficiaires";
+}
+
+<h2>Péparatifs - Beneficiaires</h2>
+
+<div class="h500 overflow-auto">
+    <table class="table table-bordered row-border">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Agent</th>
+                <th>Matricule</th>
+                <th>Grade de carrière</th>
+                <th>Grade de fonction</th>
+                <th>Emploi</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 1; }
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td> @i </td>
+                    <td>@item.nom_complet </td>
+                    <td>@item.matricule</td>
+                    <td>@item.grade_carriere</td>
+                    <td>@item.grade_fonction</td>
+                    <td><strong>@item.fonction</strong> @item.service </td>
+                    <td><a href="@Url.Action("Detail","Beneficiaire", new { area="Repartition", id=item.id })" class="button primary small"><i class="mif-home"></i> Afficher</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div> 
+<ul class="pagination no-gap success rounded">
+    @for(int d=1; d <= Math.Floor((float)(DATACCESS.GENG.Service.CountElement("beneficiaire"))/50); d++)
+    {
+    <li class="page-item @(d == ((int)ViewBag.page)?"active":"")"><a class="page-link" href="@Url.Action("Index","Beneficiaire", new { area="Repartition", page=d })">@d</a></li>
+    } 
+</ul>

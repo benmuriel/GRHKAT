@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Plannification";
+}
+
+<a id="api-structure-url" class="d-none" href="@Url.Action("", "api/structure", new { area ="" })"></a>
+<a id="api-typpos-url" class="d-none" href="@Url.Action("", "api/typeposition", new { area ="" })"></a>
+<a id="api-planning-url" class="d-none" href="@Url.Action("", "api/positiontemporaireplannification", new { area ="" })"></a>
+
+<div id="app" class="row">
+    <div class="col-md-3 bg-lightGray h-100">
+        <h4>Situations agents : Plannification </h4>
+        <div class="items-list">
+            <div class="item">
+                <input data-caption="En cours d'application" name="state" type="radio" v-model="state" value="running"
+                       data-role="radio">
+            </div>
+            <div class="item" title="Situations validées mais en attente du début de la période de validité">
+                <input data-caption="En attente d'application" v-model="state" value="comming"
+                       name="state" type="radio" data-role="radio">
+            </div>
+            <div class="item" title="Plannificqtion dont la de période de validité est dépassée">
+                <input name="state" v-model="state" value="passed"
+                       data-caption="Expirées" type="radio" data-role="radio">
+            </div>
+        </div>
+    </div>
+    @*<div class="col-3 bg-gray p-1">
+            <h2> @ViewBag.Title</h2>
+            <form class="form-inline m-2 w-100">
+                <div class="form-group col-md-12">
+                    <input type="text" data-found="#strcount" data-target="#treeTable" class="form-control col-md-12 searchField" placeholder="Trouver un departement" />
+                </div>
+            </form>
+            <div class="h500 overflow-auto">
+                <table id="treeTable" class="table compact">
+                    <tr class="searchable" v-for="(item, index) in depts" v-bind:data-content="item.fullName">
+                        <td> {{ index +1 }}</td>
+                        <td>
+                            <div class="liste_item bg-lightGra bg-darkCyan-hover p-2 text-bold" style="cursor:pointer" v-bind:id="'liste_'+item.id" href="#" v-on:click="changeDepartement(item)">
+                                {{ item.fullName }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p><span id="strcount">{{ depts.length }}</span>  résultat(s)</p>
+        </div>*@
+    <div class="col-9">
+        <div class=" bg-gray p-1">
+            <select class="select" v-model="typeposition" v-on:change="loadData()">
+                <option v-bind:value="null"> -tous les types de situations- </option>
+                <option v-for="item in types" v-bind:value="item">
+                    {{ item.designation }}
+                </option>
+            </select>
+            <select class="mt-1 select" v-model="departement" v-on:change="loadData()">
+                <option v-bind:value="null"> -tous les departements- </option>
+                <option v-for="item in depts" v-bind:value="item">
+                    {{ item.structure }}
+                </option>
+            </select>
+        </div>
+        <table class="table striped compact">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Type </th>
+                    <th>Date d'enregistrement</th>
+                    <th>Periode de validité</th>
+                    <th>Departement</th>
+                    <th>Etat</th>
+                    <td><a v-if="departement && typeposition" class="button primary" href=# v-on:click="editPlanning({})"> <i class="mif-plus"></i>Nouveau</a></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in datas">
+                    <th>{{ index +1 }}</th>
+                    <td>{{ item.type_position }}</td>
+                    <td>{{ item.created_at_string }} </td>
+                    <td>{{ item.started_at_string }} - {{ item.end_at_string }}</td>
+                    <td>{{ item.structure }} </td>
+                    <td>{{ item.validity_state }} </td>
+                    <td>
+                        <a v-if="item.validity && !item.is_locked" class="button primary outline small" href=#><i class="mif-pencil"></i></a>
+                        <a v-if="item.validity && !item.is_locked" class="button alert outline small" href=#><i class="mif-bin"></i></a>
+                        <a class="button primary outline small" href=#><i class="mif-users"></i> Afficher les situations</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="editplanning" class="dialog w-50" data-role="dialog">
+        @{Html.RenderPartial("Create"); }
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/plannification.js"></script>
+}

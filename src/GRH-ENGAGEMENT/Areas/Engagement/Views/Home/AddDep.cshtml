@@ -1,0 +1,20 @@
+﻿@model DATACCESS.GENG.Models.projet_engagement 
+
+<button title="Ajouter des departements" class=" primary button outline rounded small" v-on:click="addDeptForm()" >  <i class="mif-plus"></i>
+</button> 
+<div class="dialog w-50" data-role="dialog" id="adddep">    
+        <div class="dialog-title">Ajouter des departements</div>
+        <div class="dialog-content h400 overflow-auto"> 
+            <table class="table"> 
+                <tbody>
+                    <tr v-for="item in depts">
+                        <td>{{ item.designation }}</td>
+                        <td><a class="button primary outline small" v-on:click="submitAddDept(item)"><i class="mif-plus"></i> Ajouter</a> </td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+        <div class="dialog-actions text-right"> 
+            <button type="button" class="button js-dialog-close">Terminer</button>
+        </div>     
+</div>

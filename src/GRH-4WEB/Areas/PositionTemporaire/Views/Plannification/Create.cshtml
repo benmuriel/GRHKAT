@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+<div class="dialog-title text-center">
+    <div class="card-title">
+        <div class="m-3 text-bold">
+            <p> Plannification </p>
+        </div>
+    </div>
+</div>
+<div class="dialog-content">
+    <form>
+        @Html.AntiForgeryToken()
+        <input type="hidden" v-model="planning.structure_id" />
+        <input type="hidden" v-model="planning.type_position_id" />
+
+        <div class="m-2 row">
+            <div class="col-4"> Type de position (*)</div>
+            <div class="col-8 text-bold">
+                {{ typeposition ? typeposition.designation : '' }}
+            </div>
+        </div>
+        <div class="m-2 row">
+            <div class="col-4"> Département (*)</div>
+            <div class="col-8 text-bold">
+                {{ departement ? departement.structure : '' }}
+            </div>
+        </div>
+
+        <div class="m-2 row">
+            <div class="col-md-4">Période de validité (*)</div>
+            <div class="col-md-8">
+                <div class="text-bold p-1"> {{ typeposition ? typeposition.planning_validity_periode_string : '' }} </div>
+                <div class="row" v-if="typeposition && typeposition.planning_validity_periode === 'custom' ">
+                    <div class="col-1">Du</div>
+                    <div class="col-4">  <input id="started_at" name="started_at" type="text" v-model="planning.started_at" class="input" readonly /></div>
+                    <div class="col-1"> @{ Html.RenderPartial("~/Views/Shared/_datepickerUnlimited.cshtml", "started_at"); }  </div>
+                    <div class="col-1 text-right">Au</div>
+                    <div class="col-4"> <input id="ended_at" name="ended_at" type="text" v-model="planning.ended_at" class="input" readonly /></div>
+                    <div class="col-1"> @{ Html.RenderPartial("~/Views/Shared/_datepickerUnlimited.cshtml", "ended_at"); }</div>
+                </div>
+            </div>
+        </div>
+         <div class="m-2 row">
+            <label class="col-md-4">Commentaire (Optionnelle) </label>
+            <div class="col-md-8">
+                <textarea v-model="planning.details"></textarea>
+            </div>
+        </div>
+        <div class="m-2 row">
+            <div class="col-12 text-center fg-red">
+                <p> {{ error_message }}</p>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<div class="dialog-actions text-right">
+    <button type="button" class="button success" v-on:click="savePlanning">  Enrégister</button>
+    <button type="button" class="button js-dialog-close">  Annuler  </button>
+</div>

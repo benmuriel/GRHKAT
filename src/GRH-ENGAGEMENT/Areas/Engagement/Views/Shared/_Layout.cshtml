@@ -1,0 +1,14 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Preparations";
+}
+<div class="container-fluid" style="padding-top:30px ">
+    @RenderBody()
+</div>
+@section scripts{
+    <script>
+        $('#mod_eng').addClass("text-bold text-underline");
+    </script>
+    @RenderSection("scripts", false)
+}

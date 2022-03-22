@@ -8,21 +8,21 @@ using System.Web.Http;
 
 namespace GRH_4WEB.Controllers.Api
 {
-
+    //api/agent/
     public class AgentController : ApiController
     {
 
-        public IEnumerable<agent_synthese> Get(short? id = null, string profil="avec_emploi", string search = "")
+        public IEnumerable<agent_synthese> Get(string search = null, string order="alpha", int limit=100)
         {
-            IEnumerable<agent_synthese> data = null;
-                try
-                {
-                    data = DATACCESS.ModuleAgent.AgentLoad(id,profil,search);
-                }
-                catch (Exception e)
-                {
-                    BadRequest(e.ToString());
-                }
+            IEnumerable<agent_synthese> data = new List<agent_synthese>();
+            try
+            {
+                data = DATACCESS.ModuleAgent.AgentLoad( search,order,limit);
+            }
+            catch (Exception e)
+            {
+                BadRequest(e.ToString());
+            }
             return data;
         }
     }

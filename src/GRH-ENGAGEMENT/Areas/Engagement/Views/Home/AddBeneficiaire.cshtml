@@ -1,0 +1,70 @@
+﻿ 
+<button title="Ajouter un type de prise en charge" class=" primary button outline rounded" v-on:click="beneficiaireSelectionForm()">
+    <i class="mif-plus"></i>
+</button>
+
+<div class="dialog w-100 h-100" data-role="dialog" id="addben">
+    
+    <div class="dialog-title">Ajouter des beneficaires éligibles à <strong>{{ current_type_pes !== null ? current_type_pes.designation : '' }}</strong> de <strong> {{ current_dept !== null ? current_dept.designation : '' }}</strong> </div>
+    <div class="dialog-content"> 
+        <div class="row m-2">
+            <div class="col-11">
+                <input class="input" v-on:keyup.enter="loadselectionList()" placeholder="Trouver un beneficiaire" v-model="search" />
+            </div>
+            <div class="col-1 text-center"> 
+            <a v-on:click="loadselectionList()" class="button primary outline rounded"><i class="mif-search"></i>Chercher </a>
+            </div>
+        </div>
+        <div class="h400 overflow-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Agent</th>
+                        <th>Grade Carriere/Fonction</th>
+                        <th>Emploi</th>
+                        <th>Motif Eligibilité</th>
+                        <th>
+                            <a v-on:click="selectAllBeneficiaire" class="button  outlined rounded" v-bind:class="{success:isAllSelected }"><i v-bind:class="[isAllSelected ?'mif-checkmark':'mif-plus']"></i>Tout selectionner</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+                    <tr v-for="(item,index) in beneficiaireSelectionList">
+                        <td>{{ index +1 }}</td>
+                        <td>
+                            {{ item.beneficiaire.nom_complet }}
+                            <div class="text-small text-bold">{{ item.beneficiaire.matricule }}</div>
+                        </td>
+                        <td>  {{ item.beneficiaire.grade_carriere }}/{{ item.beneficiaire.grade_fonction }}   </td>
+                        <td class="text-small">
+                            <div class="text-bold">{{ item.beneficiaire.fonction }}</div>
+                            <smal> {{item.beneficiaire.service }}</smal>
+                        </td>
+                        <td>
+                            <div> {{ item. type_position }} </div>
+                            <div class="text-small"> {{ item. validated_at_string }} </div>
+                        </td>
+                        <td>
+                            <a v-on:click="selectBeneficaire(item.beneficiaire_id)" title="Selectionner le benedificaire" class="button w-100" v-bind:class="{success:isSelected(item.beneficiaire_id)}"><i v-bind:class="[isSelected(item.beneficiaire_id)?'mif-checkmark':'mif-plus']"></i> {{ isSelected(item.beneficiaire_id) ?'Selectionné':'Selectionner'}} </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="countfound" class="col-3">
+            {{ beneficiaireSelectionList.length }} element(s)
+        </div>
+    </div>
+    <div class="dialog-actions text-right">
+        {{ selectedBeneficiaires.length }} element(s) selectionné(s)
+        <a v-if="selectedBeneficiaires.length > 0" v-on:click="submitSelectedBeneficiaires" class="button primary rounded js-dialog-close">
+            {{ selectedBeneficiaires.length }}
+            Terminer
+        </a>
+        <a v-on:click="cancelSelection" class="button rounded js-dialog-close">
+            Annuler
+        </a>
+    </div> 
+</div>
+

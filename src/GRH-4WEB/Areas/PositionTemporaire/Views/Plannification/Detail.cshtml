@@ -1,0 +1,111 @@
+﻿@model DATACCESS.Models.planning_project
+
+@{
+    ViewBag.Title = "Detail";
+}
+<div class="row flex-justify-center">
+    <div class="col-8">
+        <div class="row">
+            <div class="col-6">
+                <h4>Details sur plannification de @Model.type_position  </h4>
+                <small>
+                    Créée le @Model.created_at.ToString("dd/MM/yyyy")
+                    @if (Model.locked_at == null)
+                    {
+                        <i title="Ouverte à la modification" class="mif-unlock"></i>
+                    }
+                    else
+                    {
+                        <i title="Verouiller" class="mif-lock">Verouillée le @Model.locked_at.Value.ToString("dd/MM/yyyy")</i>
+                    }
+                </small>
+                    <hr />
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Structures
+                            </th>
+                            <td>
+                                <ul class="list-group">
+                                    @foreach (var item in Model.structures)
+                                    {
+                                        <li>@item.designation</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Période de validité
+                            </th>
+
+                            <td>
+                                @Model.started_at.ToString("dd/MM/yyyy") - @Model.ended_at.ToString("dd/MM/yyyy")  
+                                <span class="text-small @(Model.validity?"fg-green":"fg-red")">@Model.validity_state </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.max_days)
+                            </th>
+
+                            <td>
+                                @Html.DisplayFor(model => model.max_days) jour(s)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.details)
+                            </th>
+
+                            <td>
+                                @Html.DisplayFor(model => model.details)
+                            </td>
+                        </tr>
+
+                    </table>
+                    <p class="text-right">
+                        <a class="button outline" href="@Url.Action("Index", "Plannification")"><i class="mif-home">Accueil</i></a>
+                        @if (Model.locked_at == null)
+                        {
+                            <a class="button primary outline" href="@Url.Action("Edit", "Plannification", new { id=Model.id})"><i class="mif-pencil">Modifier</i></a>
+                            <a class="button warning outline" onclick="Metro.dialog.open('#lock_plan')"><i class="mif-lock">Vérouiller</i></a>
+
+                            <div id="lock_plan" class="dialog" data-role="dialog">
+                                @{ Html.RenderPartial("_lockplan"); }
+                            </div>
+                        }
+                    </p>
+</div>
+            <div class="col-6">
+                <h4>Position temporaires associées </h4>
+                <table class="table striped hovered">
+                    <thead>
+                        <tr>
+                            <th>Agent</th>
+                            <th>Période</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(DATACCESS.Models.v_position_temporaire item in DATACCESS.ModuleAgent.PositionTemporairePlanningProjectPositionsLoad(Model.id))
+                        {
+                            <tr>
+                                <td>
+                                    <div class="text-bold"> @item.agent</div>
+                                    <small> <i class="text-bold">@item.fonction</i>  @item.service</small>
+                                </td>
+                                <td>
+                                    <div>@item.validation_state_string</div>
+                                    <strong>  @item.state_string</strong>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

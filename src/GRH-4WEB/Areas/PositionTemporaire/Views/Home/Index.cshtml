@@ -1,187 +1,107 @@
-﻿@model IEnumerable<DATACCESS.Models.v_position_temporaire>
-
+﻿
 @{
-    Layout = "~/Areas/PositionTemporaire/Views/Shared/_HomeLayout.cshtml";
     ViewBag.Title = "Positions Temporaires";
 }
 
-<div class="row">
-    <div class="col-md-3">
-        <div class="m-2">
-            <a id="list_-1" href="@Url.Action("Index","Home", new { area="PositionTemporaire" , id=-1, str=ViewBag.str })" class="button w-100">
-                ARCHIVES
-            </a>
-        </div>
-        <div class="m-2">
-            <a id="list_-2" href="@Url.Action("Index","Home", new { area="PositionTemporaire" , id=-2, str=ViewBag.str })" class="button w-100">
-                EN ATTENTE DE VAILDATION   <span class="badge inside">0</span>
-            </a>
-        </div>
-        <div class="m-2">
-            <a id="list_0" href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=0 ,str=ViewBag.str })" class="button w-100">
-                SITUATION EN COURS  <span class="badge inside">0</span>
-            </a>
-        </div>
-        <div data-role="accordion"
-             data-one-frame="false"
-             data-show-active="true">
+<a id="api-typeposs-url" class="d-none" href="@Url.Action("", "api/typeposition/", new { area ="" })"></a>
+<a id="api-data-url" class="d-none" href="@Url.Action("", "api/positiontemporaire/", new { area ="" })"></a>
+<a id="api-validation-url" class="d-none" href="@Url.Action("", "api/validation/", new { area ="" })"></a>
+<a id="api-situation-url" class="d-none" href="@Url.Action("", "api/positiontemporaire/", new { area ="" })"></a>
+<div id="page" class="d-none">@ViewBag.page</div>
 
-            @foreach (var item in DATACCESS.ModulePlanning.CategorieTypePosition())
-            {
-                <div class="frame border rounded bd-gray">
-                    <div class="heading">@item.description</div>
-                    <div class="content p-1">
-                        @foreach (var type in DATACCESS.ModulePlanning.TypesPositionTemporaire(item.designation))
-                        {
-                            <div class="m-3 border bd-cyan border-right-none border-top-none border-left-none">
-                                <a href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=type.id, str=ViewBag.str })">
-                                    @type.designation
-                                </a>
-                                <span class="badge inside">0</span>
-                            </div>
-                        } 
-                    </div>
-                </div> 
-            }
-        </div>
+<div id="app" class="row">
+    <div class="col-md-3 bg-lightGray">
+        <h4>Situations agents : Listes & Validations </h4>
+        <div class="items-list">
+            <div class="item">
+                <input data-caption="En cours de validité" name="state" type="radio" v-model="state" value="running"
+                       data-role="radio">
+            </div>
+            <div class="item"title="Situations validées mais en attente du début de la période de validité">
+                <input data-caption="En attente de la période de validité (0)"  v-model="state" value="comming" 
+                       name="state" type="radio" data-role="radio">
+            </div>
 
-        @*  <input type="checkbox" class="custom-control-input position_radio" value="@item.id" id="motif_@item.id">*@
+            <div class="item"title="Situations en attente de validation de début de validité">
+                <input data-caption="En attende de validation de debut (0)" v-model="state" value="tovalidate_start" name="state" 
+                       type="radio" data-role="radio">
+            </div>
+
+            <div class="item"title="Situations en attente de validation de fin de validité">
+                <input data-caption="En attente de validation de Fin (0)" v-model="state" value="tovalidate_end" name="state"  
+                       type="radio" data-role="radio">
+            </div>
+
+            <div class="item"title="Situations en fin de période de validité" >
+                <input name="state" v-model="state" value="passed"
+                       data-caption="Terminées" type="radio" data-role="radio" >
+            </div>
+          </div>
     </div>
     <div class="col-md-9">
-        <h3>@ViewBag.Title - @ViewBag.PageTitle</h3>
-        <div class="row mt-2 ">
-            <div class="col-10">
-                <select class="form-control bo-select" id="str_id">
-                    <option value="0" href="@Url.Action("Index","Home", new { area="PositionTemporaire", id=ViewBag.id })">
-                        Tous les services
-                    </option>
-                 @foreach ( var item in DATACCESS.ModulePlanning.StructurePrincipaleLoad(null))
-                 {
-                     <option value="@item.id" href="@Url.Action("Index","Home", new { area="PositionTemporaire", str=item.id, id=ViewBag.id })"
-                             @(item.id.ToString() == ViewBag.str ?"selected":"")>
-                         @item.structure
-                     </option>
-                 }
-                </select>
-            </div>
-            <div class="col-2">
-                @if (ViewBag.id > 0 && Convert.ToInt16(ViewBag.str) > 0)
-                {
-                    <a href="@Url.Action("Create","Position", new {area= "PositionTemporaire", str=ViewBag.str, id =ViewBag.id })" class="button outline primary"> <span class="mif mif-plus"></span> Nouveau</a>
-                }
-            </div>
+        <div class="bg-gray p-1">
+            <select class="select" v-model="typeposition" v-on:change="loadData()">
+                <option v-bind:value="null"> -tous les types de situations- </option>
+                <option v-for="item in typespositions" v-bind:value="item" >
+                        {{ item.designation }}
+                </option>
+            </select>
+            @*<h5 class="p-1">
+                {{ typeposition.designation?typeposition.designation :'-selectionner un type de situation agent-' }}
+            </h5>*@
+            <input type="search" class="input mt-1 searchField" data-found="#count" data-target="#data" placeholder="Filter la liste" />
+
         </div>
-        <input type="search" class="form-controlsearchField" data-found="#count" data-target="#data" placeholder="Filter la liste" />
-        <div class="overflow-auto col-12" style="height:350px;">
-            <table id="data" class="table striped">
+          <div class="overflow-auto h500 col-12">
+            <table id="data" class="table compact row-hover striped">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>AGENT </th>
-                        <th>EMPLOI </th>
-                        <th>POSITION </th>
+                        <th>Date d'enregistrement </th>
+                        <th>Type </th>
+                        <th>Agent </th>
+
+                        <th>Situation (Déscription) </th>
+                        <th>Durée</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @{ int i = 0;}
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model)
-                        {
-                            <tr class="searchable" data-content="@item.Describe">
-                                <td> @{i++;} @i  </td>
-                                <td>
-                                  @item.agent
-                                    <div>
-                                        <a href="@Url.Action("Profil", "Home", new {area="ProfilAgent" , id= item.agent_id })" target="_blank" class="button outline success">Voir le profil</a>
-                                    </div>
-                                </td>
-                                <td style="max-width:330px">
-                                    <span class="text-bold">@item.fonction</span> - @item.service
-                                </td>
-                                <td>
-                                    <p>@item.state_string</p>
-                                    <div class="text-bold"> @item.Describe</div>
-
-                                    <div class="text-right m-2">
-                                        @if (item.position_state == "tovalidate")
-                                        {
-                                            <a class="button outline primary" href="@Url.Action("Edit","Position", new {area= "PositionTemporaire", id=item.id })">Editer</a>
-                                            <button id="@item.id" dest="#delete_@item.id" href="@Url.Action("Delete","Position", new {area= "PositionTemporaire", id=item.id })" class="remote-content button outline alert">Supprimer</button>
-
-                                            @*<a href="#" class="button outline alert" onclick="Metro.dialog.open('#delete_@item.id')">Supprimer</a>*@
-                                            <div id="delete_@item.id" class="dialog" data-role="dialog">
-                                                @*@{ Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_SituationDeletePartial.cshtml", item); }*@
-                                            </div>
-                                        }
-                                        @if (item.position_state == "running" && item.duree == 0)
-                                        {
-                                            <button id="@item.id" dest="#terminate_@item.id" href="@Url.Action("Terminate","Position", new {area= "PositionTemporaire", id=item.id })" class="remote-content button outline primary">Terminer</button>
-                                            <div id="terminate_@item.id" class="dialog" data-role="dialog"> </div>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
+                    <tr v-for="(item,index) in datas" class="searchable" v-bind:data-content="item.agent+item.description+item.periode+item.type_position">
+                        <td> {{ index + 1 }}</td>
+                        <td>
+                            <div v-if="state === 'tovalidate_end'"> {{ item.end_requested_at_string }} </div>
+                            <div v-else> {{ item.created_at_string }} </div>
+                        </td>
+                        <td>{{ item.type_position }}</td>
+                        <td class="text-bold" style="min-width:220px">
+                            {{ item.agent }}
+                            @*<small><strong> <i>{{ item.fonction }}</i></strong>  {{ item.service }}</small>*@
+                        </td>
+                        <td style="max-width:300px" class="text-bold">
+                            {{ item.description }}
+                        </td>
+                        <td style="min-width:240px">{{ item.periode }}</td>
+                        <td>
+                            <a title="Situations agents en cours" class="button success outline small mr-1" href="#" v-on:click="showCurrentPositionList(item)"> <i class="mif-user-check"></i></a>
+                            <a v-if="state === 'tovalidate_start'|| state === 'tovalidate_end'" title="Valider" href="#" class="button success small" v-on:click="validationForm(item)"> <span class="mif-checkmark"></span> </a>
+                        </td>
+                    </tr>
                 </tbody>
-
             </table>
         </div>
-
+        <p><span id="postcount"> {{ datas.length }}</span> resultat(s)</p>
+        @{Html.RenderPartial("~/Areas/ProfilAgent/Views/Home/_LastPositionList.cshtml"); }
+        <div id="validationform" class="dialog" data-role="dialog">
+            @{ Html.RenderPartial("_ValidateSituationPartial"); }
+        </div>
     </div>
 </div>
 
 
 @section scripts {
-    <script>
-        @*$('#@ViewBag.etat').addClass('btn-primary text-light');
-        var str = $("#str_id");
-        str.attr("data-selected").split('-').forEach(function (item) {
-            if (item === "") return;
-            $(".position_radio").each(function () {
-                var me = $(this)
-                 if (Number(item) === Number(me.val())) {
-                    me.prop("checked", true)
-                }
-            });
-        });*@
-
-        $('.remote-content').click(function () {
-            var id = $(this).attr('id')
-            var dest = $(this).attr('dest')
-            var url = $(this).attr('href')
-            Metro.dialog.open(dest)
-            $.ajax({
-                method: "GET",
-                url :url
-            }).then(
-                function (response) {
-                    $(dest).html(response)
-
-                }, function (xlr) {
-
-                }
-            )
-
-        });
-        $('#list_@ViewBag.id').addClass('bg-cyan fg-white');
-        $('select.bo-select').change(function () {
-            document.location.href = $('option:selected', this).attr('href')
-        });
-
-        $('.state_link').click(function (e) {
-            e.preventDefault();
-            var ids ="";
-        $(".position_radio").each(function () {
-            var me = $(this)
-            if (me.is(":checked")) {
-                ids += "-"+me.val();
-            }
-        })
-            var url = $(this).attr("href") + "&t=" + ids.trim() + "&s=" + str.val()
-            document.location.href = url
-        });
-    </script>
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/VueApps/positiontemporaire.js"></script>
 }
 

@@ -10,12 +10,14 @@
 </form>
 
 <div class="h500 overflow-auto">
-    <table id="treeTable" class="table striped row-border row-hover compact">      
+    <table id="treeTable" class="table compact">      
             <tr class="searchable" v-for="(item, index) in depts" v-bind:data-content="item.fullName">
                 <td> {{ index +1 }}</td>
                 <td>
-                    <a class="str" v-bind:id="'str_'+item.id" href="#" v-on:click="changeDepartement(item.id,item.fullName)">{{ item.fullName }}</a>
-                </td>
+                    <div class="liste_item bg-lightGra bg-darkCyan-hover fg-white-hover p-2 text-bold" style="cursor:pointer" v-bind:title="'Effectif : '+ item.nbe_poste_occupied+' agent(s)'" v-bind:id="'liste_'+item.id" href="#" v-on:click="changeDepartement(item)">
+                    {{ item.fullName }} <span class="small border-2 border-radius-20 bd-white bg-light fg-dark  p-1">{{ item.nbe_poste_occupied }} </span></div>
+                   
+                </td> 
             </tr>        
     </table>
 </div>
